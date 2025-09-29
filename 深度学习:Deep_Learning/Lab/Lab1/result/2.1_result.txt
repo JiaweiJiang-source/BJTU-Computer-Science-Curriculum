@@ -1,0 +1,10 @@
+Epoch 100/1000, Loss: 0.2214, Accuracy: 0.9050
+Epoch 200/1000, Loss: 0.2172, Accuracy: 0.9100
+Epoch 300/1000, Loss: 0.2134, Accuracy: 0.9150
+Epoch 400/1000, Loss: 0.2099, Accuracy: 0.9200
+Epoch 500/1000, Loss: 0.2066, Accuracy: 0.9200
+Epoch 600/1000, Loss: 0.2036, Accuracy: 0.9200
+Epoch 700/1000, Loss: 0.2009, Accuracy: 0.9250
+Epoch 800/1000, Loss: 0.1984, Accuracy: 0.9250
+Epoch 900/1000, Loss: 0.1961, Accuracy: 0.9250
+Epoch 1000/1000, Loss: 0.1940, Accuracy: 0.9250
