@@ -1,0 +1,7 @@
+(+,identifier,identifier,T1)
+(/,identifier,T1,T2)
+(/,identifier,identifier,T3)
+(*,T3,identifier,T4)
+(*,T2,T4,T5)
+(+,identifier,T5,T6)
+(=,T6,NULL,identifier)
