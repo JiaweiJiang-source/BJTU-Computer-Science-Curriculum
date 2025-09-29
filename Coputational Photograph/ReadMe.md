@@ -13,6 +13,6 @@
 2. 需要卷综述 && Pre
 3. Pre需要当主力
 
-[TOC]
-1. [Novel View Synthesis（期中综述）](#novel-view-synthesis期中综述)
-2. [PromptRR（结课PPT展示）](#promptrr结课ppt展示)
+## 目录
+1. [Novel View Synthesis（期中综述）](../Novel%20View%20Synthesis/)
+2. [PromptRR（结课PPT展示）](../template/PromptRR.pptx)
