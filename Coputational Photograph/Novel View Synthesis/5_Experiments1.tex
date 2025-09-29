@@ -1,0 +1,11 @@
+% \subsection{Head pose}
+% Following \cite{beyer2015biternion,prokudin2018deep}, we choose the occluded version of CAVIAR dataset \cite{fisher2005caviar} and construct the training, validation and testing using 10802, 5444 and 5445 identity-independent images respectively. Since the orientation of gaze is coarsely labeled, and almost 40\% training samples lie within ${\pm} 4^{\circ}$ of the four canonical orientations, regression-based methods \cite{beyer2015biternion,prokudin2018deep} are inefficient.   
+
+
+% For fair comparison, we use the same deep batch normalized VGG-style \cite{simonyan2014very} backbone as in \cite{beyer2015biternion,prokudin2018deep}. Instead of a sigmoid unit in their regression model, the last layer is set to a softmax layer with 8 ways for Right, Right-Back, Back, Left-Back, Left, Left-Front, Front and Right-Front poses. 
+
+% The metric used here is the mean absolute angular deviation (MAAD), which is widely adopted for angular regression tasks. The results are summarized in Table \textcolor{red}{1}. The Wasserstein training boosts the performance significantly. Using convex $f$ can further improve the result, while the losses with concave $f$ are usually inferior to the vanilla Wasserstein loss with arc length as the ground metric. The adaptive ground metric learning is helpful for the $\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$, but not necessary when we extend the ground metric to the square of $d_{i,j}$.
+
+
+% We also note that the exact Wasserstein distances are consistently better than their approximate counterparts \cite{cuturi2013sinkhorn}. More appealingly, in the training stage, $\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$ is 5$\times$ faster than $\approx\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$ and 3$\times$ faster than conventional regression-based method \cite{prokudin2018deep} to achieve the convergence. 
+

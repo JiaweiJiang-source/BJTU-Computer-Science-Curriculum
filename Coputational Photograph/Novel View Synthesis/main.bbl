@@ -1,0 +1,247 @@
+\begin{thebibliography}{10}\itemsep=-1pt
+
+\bibitem{barron2021mipnerf}
+Jonathan~T Barron, Ben Mildenhall, Matthew Tancik, Peter Hedman, Ricardo
+  Martin-Brualla, and Pratul~P Srinivasan.
+\newblock {Mip-NeRF}: A multiscale representation for anti-aliasing neural
+  radiance fields.
+\newblock In {\em Proceedings of the {IEEE/CVF} International Conference on
+  Computer Vision ({ICCV})}, pages 5855--5864, 2021.
+
+\bibitem{barron2022mipnerf360}
+Jonathan~T Barron, Ben Mildenhall, Dor Verbin, Pratul~P Srinivasan, and Peter
+  Hedman.
+\newblock {Mip-NeRF} 360: Unbounded anti-aliased neural radiance fields.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 5470--5479, 2022.
+
+\bibitem{barron2023zipnerf}
+Jonathan~T. Barron, Ben Mildenhall, Dor Verbin, Pratul~P. Srinivasan, and Peter
+  Hedman.
+\newblock Zip-{NeRF}: Anti-aliased grid-based neural radiance fields.
+\newblock In {\em Proceedings of the {IEEE/CVF} International Conference on
+  Computer Vision ({ICCV})}, pages 732--742, 2023.
+
+\bibitem{chen2022tensorf}
+Anpei Chen, Zexiang Xu, Andreas Geiger, Jingdong Yu, and Hao Su.
+\newblock {TensoRF}: Tensorial radiance fields.
+\newblock In {\em European Conference on Computer Vision ({ECCV})}, pages
+  333--350. Springer, 2022.
+
+\bibitem{chen2021mvsnerf}
+Anpei Chen, Zexiang Xu, Fuqiang Zhao, Jingyi Zhang, and Andreas Geiger.
+\newblock {MVSNeRF}: Fast generalizable radiance field reconstruction from
+  multi-view stereo.
+\newblock In {\em Proceedings of the {IEEE/CVF} International Conference on
+  Computer Vision ({ICCV})}, pages 14124--14133, 2021.
+
+\bibitem{dhariwal2021diffusion}
+Prafulla Dhariwal and Alexander Nichol.
+\newblock Diffusion models beat {GANs} on image synthesis.
+\newblock In {\em Advances in Neural Information Processing Systems
+  ({NeurIPS})}, volume~34, pages 8780--8794, 2021.
+
+\bibitem{flynn2016deepstereo}
+John Flynn, Ivan Neulander, James Philbin, and Noah Snavely.
+\newblock Deep stereo: Learning to predict new views from the world's imagery.
+\newblock In {\em Proceedings of the {IEEE} Conference on Computer Vision and
+  Pattern Recognition ({CVPR})}, pages 5515--5524, 2016.
+
+\bibitem{fridovichkeil2022plenoxels}
+Sara Fridovich-Keil, Alex Yu, Matthew Tancik, Qinhong Chen, Benjamin Recht, and
+  Angjoo Kanazawa.
+\newblock Plenoxels: Radiance fields without neural networks.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 5501--5510, 2022.
+
+\bibitem{goesele2007multi}
+Michael Goesele, Noah Snavely, Brian Curless, Hugues Hoppe, and Steven~M Seitz.
+\newblock Multi-view stereo for community photo collections.
+\newblock In {\em 2007 {IEEE} 11th International Conference on Computer Vision
+  ({ICCV})}, pages 1--8. IEEE, 2007.
+
+\bibitem{He2024Progress}
+Gaoxiang He, Bin Zhu, Bo Xie, and Yi Chen.
+\newblock Progress in novel view synthesis using neural radiance fields.
+\newblock {\em Laser \& Optoelectronics Progress}, 61(12):1200005, 2024.
+
+\bibitem{hu2022efficientnerf}
+Tao Hu, Shu Liu, Yilun Chen, Tiancheng Chen, and Qi Shen.
+\newblock {EfficientNeRF}: Efficient neural radiance fields.
+\newblock In {\em Proceedings of the IEEE/CVF Conference on Computer Vision and
+  Pattern Recognition (CVPR)}, pages 12892--12901, 2022.
+
+\bibitem{jain2021dietnerf}
+Ajay Jain, Matthew Tancik, and Pieter Abbeel.
+\newblock Putting {NeRF} on a diet: Semantically consistent few-shot view
+  synthesis.
+\newblock In {\em Proceedings of the {IEEE/CVF} International Conference on
+  Computer Vision ({ICCV})}, pages 5885--5894, 2021.
+
+\bibitem{kajiya1984ray}
+James~T Kajiya and Brian~P Von~Herzen.
+\newblock Ray tracing volume densities.
+\newblock In {\em {ACM SIGGRAPH} Computer Graphics}, volume~18, pages 165--174.
+  ACM, 1984.
+
+\bibitem{karnewar2022relu}
+Animesh Karnewar, Tobias Ritschel, Oliver Wang, David Novotny, Andrea Vedaldi,
+  and Aman Makadia.
+\newblock {ReLU} fields: The little non-linearity that could.
+\newblock In {\em ACM SIGGRAPH 2022 Conference Proceedings}, pages 1--9, 2022.
+
+\bibitem{kato2018neural}
+Hiroharu Kato, Yoshitaka Ushiku, and Tatsuya Harada.
+\newblock Neural {3D} mesh renderer.
+\newblock In {\em Proceedings of the {IEEE} Conference on Computer Vision and
+  Pattern Recognition ({CVPR})}, pages 3907--3916, 2018.
+
+\bibitem{kulhanek2023consistent}
+J{\'a}chym Kulh{\'a}nek, Erik Tretschk, Zexiang Wang, Christian Henkel, Yuning
+  Jiang, Ali Gokaslan, and Vincent Sitzmann.
+\newblock Consistent view synthesis with pose-guided diffusion models.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 12516--12525, 2023.
+
+\bibitem{li2023nerfacc}
+Ruilong Li, Hang Gao, Matthew Tancik, and Angjoo Kanazawa.
+\newblock {NeRFAcc}: Efficient sampling accelerates {NeRFs}, 2023.
+
+\bibitem{liu2020nsvf}
+Lingjie Liu, Jiatao Gu, Kyaw~Zaw Lin, Tat-Seng Chua, and Christian Theobalt.
+\newblock {NSVF}: Neural sparse voxel fields, 2020.
+
+\bibitem{martinbrualla2021nerfw}
+Ricardo Martin-Brualla, Noha Radwan, Mehdi S.~M. Sajjadi, Jonathan~T. Barron,
+  Alexey Dosovitskiy, and Daniel Duckworth.
+\newblock {NeRF-W}: Neural radiance fields for unconstrained photo collections.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 7210--7219, 2021.
+
+\bibitem{mildenhall2020nerf}
+Ben Mildenhall, Pratul~P Srinivasan, Matthew Tancik, Jonathan~T Barron, Ravi
+  Ramamoorthi, and Ren Ng.
+\newblock {NeRF}: Representing scenes as neural radiance fields for view
+  synthesis.
+\newblock In {\em European Conference on Computer Vision ({ECCV})}, pages
+  405--421. Springer, 2020.
+
+\bibitem{mueller2022instant}
+Thomas M{\"u}ller, Alex Evans, Christoph Schied, and Alexander Keller.
+\newblock Instant neural graphics primitives with a multiresolution hash
+  encoding.
+\newblock {\em {ACM} Transactions on Graphics ({TOG})}, 41(4):1--15, 2022.
+
+\bibitem{niemeyer2022regnerf}
+Michael Niemeyer, Jonathan~T Barron, Ben Mildenhall, Mehdi~SM Sajjadi, Andreas
+  Geiger, and Noha Radwan.
+\newblock {RegNeRF}: Regularizing neural radiance fields for view synthesis
+  from sparse inputs.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 5480--5490, 2022.
+
+\bibitem{niemeyer2021giraffe}
+Michael Niemeyer and Andreas Geiger.
+\newblock {GIRAFFE}: Representing scenes as compositional generative neural
+  feature fields.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 11453--11464, 2021.
+
+\bibitem{poole2022dreamfusion}
+Ben Poole, Ajay Jain, Jonathan~T. Barron, and Ben Mildenhall.
+\newblock {DreamFusion}: Text-to-{3D} using {2D} diffusion.
+\newblock In {\em International Conference on Learning Representations
+  ({ICLR})}, 2023.
+
+\bibitem{ren2022look}
+Xuanchi Ren, Hao Ling, Ailing Zeng, Shizun Liu, and Hong Li.
+\newblock Look outside the room: Synthesizing a consistent long-term {3D} scene
+  video from a single image.
+\newblock In {\em European Conference on Computer Vision ({ECCV})}, pages
+  473--490. Springer, 2022.
+
+\bibitem{rombach2021geometry}
+Robin Rombach, Patrick Esser, and Bj{\"o}rn Ommer.
+\newblock Geometry-free view synthesis: Transformers and no {3D} priors.
+\newblock In {\em Proceedings of the {IEEE/CVF} International Conference on
+  Computer Vision ({ICCV})}, pages 13033--13043, 2021.
+
+\bibitem{snavely2006photo}
+Noah Snavely, Steven~M Seitz, and Richard Szeliski.
+\newblock Photo tourism: exploring photo collections in {3D}.
+\newblock In {\em {ACM SIGGRAPH} 2006 papers}, pages 835--846. ACM, 2006.
+
+\bibitem{sun2022dvgo}
+Cheng Sun, Min Sun, and Hwann-Tzong Chen.
+\newblock Direct voxel grid optimization: Super-fast convergence for radiance
+  fields reconstruction.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 5459--5469, 2022.
+
+\bibitem{tancik2022blocknerf}
+Matthew Tancik, Vincent Casser, Xinchen Yan, Sabeek Pradhan, Ben Mildenhall,
+  Pratul~P Srinivasan, Jonathan~T Barron, and Henrik Kretzschmar.
+\newblock Block-{NeRF}: Scalable large scene neural view synthesis.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 8248--8258, 2022.
+
+\bibitem{turki2022mega}
+Haithem Turki, Deva Ramanan, and Mahadev Satyanarayanan.
+\newblock {Mega-NeRF}: Scalable construction of large-scale {NeRFs} for virtual
+  fly-throughs.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 12859--12869, 2022.
+
+\bibitem{watson2022novel}
+Daniel Watson, William Chan, Ricardo Polis, Alexander Tokmakov, Dima Metaxas,
+  and Abhishek Kar.
+\newblock Novel view synthesis with diffusion models.
+\newblock In {\em International Conference on Learning Representations
+  ({ICLR})}, 2023.
+
+\bibitem{wiles2020pixelsynth}
+Olivia Wiles, Georgia Gkioxari, Richard Szeliski, and Justin Johnson.
+\newblock {PixelSynth}: Generating a {3D}-consistent experience from a single
+  image.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 4324--4333, 2020.
+
+\bibitem{wu2016learning}
+Jiajun Wu, Chengkai Zhang, Tianfan Xue, Bill Freeman, and Josh Tenenbaum.
+\newblock Learning a probabilistic latent space of object shapes via {3D}
+  generative-adversarial modeling.
+\newblock In {\em Advances in Neural Information Processing Systems
+  ({NeurIPS})}, volume~29, 2016.
+
+\bibitem{yan2023plenvdb}
+Hao Yan, Chenglei Liu, Chuan Ma, Jiaming Wang, Hesen Wang, Chengyuan Tu, Andrea
+  Tagliasacchi, and Xuejin Liu.
+\newblock {PlenVDB}: Memory efficient {VDB}-based radiance fields for fast
+  training and rendering.
+\newblock In {\em Proceedings of the IEEE/CVF Conference on Computer Vision and
+  Pattern Recognition (CVPR)}, pages 88--97, 2023.
+
+\bibitem{yang2023freenerf}
+Jiawei Yang, Marco Pavone, and Yilun Wang.
+\newblock {FreeNeRF}: Improving few-shot neural rendering with free frequency
+  regularization.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 8264--8273, 2023.
+
+\bibitem{yu2021plenoctrees}
+Alex Yu, Ruilong Li, Matthew Tancik, Hao Li, Ren Ng, and Angjoo Kanazawa.
+\newblock {PlenOctrees} for real-time rendering of neural radiance fields.
+\newblock In {\em Proceedings of the {IEEE/CVF} International Conference on
+  Computer Vision ({ICCV})}, pages 5752--5761, 2021.
+
+\bibitem{yu2021pixelnerf}
+Alex Yu, Vickie Ye, Matthew Tancik, and Angjoo Kanazawa.
+\newblock {pixelNeRF}: Neural radiance fields from one or few images.
+\newblock In {\em Proceedings of the {IEEE/CVF} Conference on Computer Vision
+  and Pattern Recognition ({CVPR})}, pages 4578--4587, 2021.
+
+\bibitem{zhang2020nerfplusplus}
+Kai Zhang, Gernot Riegler, Noah Snavely, and Vladlen Koltun.
+\newblock {NeRF++}: Analyzing and improving neural radiance fields, 2020.
+
+\end{thebibliography}

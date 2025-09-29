@@ -1,0 +1,102 @@
+% \subsection{Wasserstein training with conservative target}
+
+% With the conservative target label, the fast computation of Wasserstein distance in Eq. \eqref{con:df} does not apply. A straightforward solution is to regard it as a general case and solve its closed-form result with a complexity higher than $\mathcal{O}(N^3)$ or get an approximate result with a complexity in $\mathcal{O}(N^2)$. The main results of this section are a series of analytic formulation when the ground metric is a nonnegative increasing linear/convex/concave function $w.r.t.$ arc length with a reasonable complexity.\\
+
+
+
+
+
+% \noindent\textbf{3.3.1 Arc length $d_{i,j}$ as the ground metric.}
+
+
+% When we use $d_{i,j}$ as ground metric directly, the Wasserstein loss $\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},\overline{\textbf{t}}})$ can be written as \begin{equation}
+% \mathcal{L}_{d_{i,j}}{(\rm{{\textbf{s},\overline{\textbf{t}}}})=\mathop{}_{\alpha\in\mathbb{R}}^{inf}}\sum_{j=0}^{N-1}|{\sum_{i=0}^{j}(s_i-\overline{{t}}_i)}-\alpha|\label{con:medi}
+% \end{equation}
+
+% To the best of our knowledge, Eq. \eqref{con:medi} was first developed in \cite{werman1986bipartite}, in which it is proved for sets of points with unitary masses on the circle. A similar conclusion for the Kantorovich-Rubinstein problem was derived in \cite{cabrelli1995kantorovich,cabrelli1998linear}, which is known to be identical to the Wasserstein distance problem when ${{\rm\textbf{D}}_{i,j}}$ is a distance. We note that this is true for $\mathcal{L}_{d_{i,j}}$ (but false for $\mathcal{L}_{{\rm\textbf{D}}^{\rho}}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$ with $\rho>1$). The optimal $\alpha$ should be the median of the set values $\left\{\sum_{i=0}^{j}(s_i-\overline{{t}}_i), 0\leq j\leq {\scriptsize{N}}-1\right\}$ \cite{pele2008linear}. An equivalent distance is proposed from the circular cumulative distribution perspective \cite{rabin2009statistical}. All of these papers notice that computing Eq. \eqref{con:medi} can be done in linear time ($i.e., \mathcal{O}(N)$) weighted median algorithm (see \cite{villani2003topics} for a review).
+
+% We note that the partial derivative of Eq. \eqref{con:medi} $w.r.t.$ $s_n$ is $\sum_{j=0}^{N-1}{\rm{sgn}}(\varphi_j)\sum_{i=0}^{j}(\delta_{i,n}-s_i),$ where $\varphi_j=\sum_{i=0}^{j}(s_i-{\overline{t}_i}),$ and $\delta_{i,n}=1$ when $i=n$. Additional details are given in Appendix B.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% ~\\
+% \noindent\textbf{3.3.2 Convex function $ w.r.t.$ $d_{i,j}$ as the ground metric}
+
+% Next, we extend the ground metric as an nonnegative increasing and convex function of $d_{i,j}$, and show its analytic formulation. If we compute the probability with a precision $\epsilon$, we will have $M=1/\epsilon$ unitary masses in each distribution. We define the cumulative distribution function of ${\rm{\textbf{s}}}$ and ${\overline{\rm\textbf{t}}}$ and their pseudo-inverses as follows \begin{equation}
+% \begin{array}{ll}
+% {\rm{\textbf{S}}}(i)=\sum_{i=0}^{N-1}s_i; ~{\rm{\textbf{S}}}{(m)}^{-1}={\rm{inf}}\left\{i; {\rm{\textbf{S}}}(i)\geq m\right\}\\
+
+
+
+% {\rm\overline{\textbf{T}}}(i)=\sum_{i=0}^{N-1}\overline{t}_i; ~{\rm\overline{\textbf{T}}}{(m)}^{-1}={\rm{inf}}\left\{i; {\rm\overline{\textbf{T}}}(i)\geq m\right\}\\
+%              \end{array}
+% \end{equation} where $m\in \left\{\frac{1}{M},\frac{2}{M},\cdots,1\right\}$. Following the convention ${\rm{\textbf{S}}}(i+N)={\rm{\textbf{S}}}(i)$, ${\rm{\textbf{S}}}$ can be extended to the whole real number, which consider ${\rm{\textbf{S}}}$ as a periodic (or modulo \cite{cha2002measuring}) distribution on $\mathbb{R}$. 
+
+
+
+
+% \textbf{Theorem 2.} \textit{Assuming the arc length distance $d_{i,j}$ is given by} Eq. \eqref{con:d} \textit{and the ground metric} ${{\rm\textbf{D}}_{i,j}}=f(d_{i,j})$, \textit{with f a nonnegative, increasing and convex function. Then} \begin{equation}
+% \mathcal{L}_{{\rm\textbf{D}}^{conv}_{i,j}}{(\rm{{\textbf{s},\overline{\textbf{t}}}})=\mathop{}_{\alpha\in\mathbb{R}}^{inf}}\sum_{m=\frac{1}{M}}^{1} f(|{{\rm\small{\textbf{S}}}(m)}^{-1}-{({\rm\small\overline{\textbf{T}}}(m)-\alpha)}^{-1}|)\label{con:conv}  
+% \end{equation} where $\alpha$ is a to-be-searched transportation constant. A proof of Eq. \eqref{con:conv} $w.r.t.$ the continuous distribution was given in \cite{delon2010fast}, which shows it holds for any couple of desecrate probability distributions. Although that proof involves some complex notions of measure theory, that is not needed in the discrete setting. The proof is based on the idea that the circle can always be ``cut'' somewhere by searching for a $m$, that allowing us to reduce the modulo problem \cite{cha2002measuring} to ordinal case. Therefore, Eq. \eqref{con:conv} is a generalization of the ordinal data. Actually, we can also extend Wasserstein distance for discrete distribution in a line \cite{villani2003topics} as \begin{equation}\sum_{m=\frac{1}{M}}^{1} f(|{{\rm{\textbf{S}}}(m)}^{-1}-{{\rm\overline{\textbf{T}}}(m)}^{-1}|)\label{con:ordinal} \end{equation} where $f$ can be a nonnegative linear/convex/concave increasing function $w.r.t.$ the distance in a line. Eq. \eqref{con:ordinal} can be computed with a complexity of $\mathcal{O}(N)$ for two discrete distributions. When $f$ is a convex function, the optimal $\alpha$ can be found with a complexity of $\mathcal{O}({\rm log}M)$ using the Monge condition\footnote{${\rm\textbf{D}}_{i,j}$+${\rm\textbf{D}}_{i',j'}<{\rm\textbf{D}}_{i,j'}$+${\rm\textbf{D}}_{i',j}$ whenever $i<i'$ and $j<j'$.} (similar to binary search). Therefore, the exact solution of Eq. \eqref{con:conv} can be obtained with $\mathcal{O}(N{\rm log}M)$ complexity. In practice, $\small {\rm log}M$ is a constant (${\rm log}10^8$) according to the precision of softmax predictions, which is much smaller than $N$ (usually $N=360$ for pose data). 
+
+
+% Here, we give some measures\footnote{We refer to ``measure'', since a $\rho^{th}$-root normalization is required to get a distance \cite{villani2003topics}, which satisfies three properties: positive definiteness, symmetry and triangle inequality.} using the typical convex ground metric function.
+
+% $\mathcal{L}_{{\rm\textbf{D}}_{i,j}^\rho}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$, the Wasserstein measure using $d^\rho$ as ground metric with $\rho=2,3,\cdots$. The case $\rho=2$ is equivalent to the Cram\'{e}r distance \cite{rizzo2016energy}. Note that the Cram\'{e}r distance is not a distance metric proper. However, its square root is.\begin{equation}
+% {\rm\textbf{D}}_{i,j}^\rho= d_{i,j}^\rho    
+% \end{equation} 
+
+
+
+% \vspace{-3pt}
+% $\mathcal{L}_{{\rm\textbf{D}}_{i,j}^{H\tau}}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$, the Wasserstein measure using a Huber cost function with a parameter $\tau$.\begin{equation}
+% {\rm\textbf{D}}_{i,j}^{H\tau}=\left\{
+%              \begin{array}{ll}
+%              d_{i,j}^2&{\rm{if}}~d_{i,j}\leq\tau\\
+%              \tau(2d_{i,j}-\tau)&{\rm{otherwise}}.\\
+%              \end{array}
+%              \right.
+% \end{equation}
+
+
+
+
+
+
+
+
+
+
+% ~\\
+% \noindent\textbf{3.3.3 Concave function $w.r.t.$ $d_{i,j}$ as the ground metric}
+
+
+% In practice, it may be useful to choose the ground metric as a nonnegative, concave and increasing function $w.r.t.$ $d_{i,j}$. For instance, we can use the chord length. \begin{equation}
+% {\rm\textbf{D}}_{i,j}^{chord}=2r~{\rm sin}(d_{i,j}/2r)
+% \end{equation}where $r=N/2\pi$ is the radius. Therefore, $f(\cdot)$ can be regarded as a concave and increasing function on interval [0,$N$/2] $w.r.t.$ $d_{i,j}$.
+
+
+% It is easy to show that ${\rm\textbf{D}}_{i,j}^{chord}$ is a distance, and thus $\mathcal{L}_{{\rm\textbf{D}}^{chord}}(\rm{\textbf{s},\overline{\textbf{t}}})$ is also a distance between two probability distributions \cite{villani2003topics}. Notice that a property of concave distance is that they do not move the mass shared by the $\rm{\textbf{s}}$ and ${\rm\overline{\textbf{t}}}$ \cite{villani2003topics}. Considering the Monge condition does not apply for concave function, there is no corresponding fast algorithm to compute its closed-form solution. In most cases, we settle for linear programming. However, the simplex or interior point algorithm are known to have at best a $\mathcal{O}(N^{2.5}{\rm{log}}(ND_{max}))$ complexity to compare two histograms on $N$ bins \cite{orlin1993faster,burkard2009society}, where $D_{max}=f(\frac{N}{2})$ is the maximal distance between the two bins.   
+
+
+% Although the general computation speed of the concave function is not satisfactory, the step function $f(t)=\mathbbm{1}_{t\neq 0}$ (one every where except at 0) can be a special case, which has significantly less complexity \cite{villani2003topics}. Assuming that the $f(t)=\mathbbm{1}_{t\neq 0}$, the Wasserstein metric between two normalized discrete histograms on $N$ bins is simplified to the $\ell_1$ distance. \begin{equation}
+% \mathcal{L}_{\mathbbm{1}{d_{i,j}\neq 0}}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}=\frac{1}{2}\sum_{i=0}^{N-1}{|{\rm{s}}_i-{\rm{\overline{t}}}_i|}=\frac{1}{2}||{\rm{\textbf{s}}}-{\rm{\overline{\textbf{t}}}}||_1
+% \end{equation}where $||\cdot||_1$ is the discrete $\ell_1$ norm.  
+
+% Unfortunately, its fast computation is at the cost of losing the ability to discriminate the difference of probability in a different position of bins.

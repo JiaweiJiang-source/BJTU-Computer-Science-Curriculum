@@ -1,0 +1,55 @@
+\backcite {snavely2006photo, goesele2007multi}{{1}{1}{section.1}}
+\backcite {flynn2016deepstereo}{{1}{1}{section.1}}
+\backcite {kato2018neural}{{1}{1}{section.1}}
+\backcite {yu2021pixelnerf}{{1}{1}{section.1}}
+\backcite {wiles2020pixelsynth, rombach2021geometry}{{1}{1}{section.1}}
+\backcite {niemeyer2021giraffe, ren2022look}{{1}{1}{section.1}}
+\backcite {wu2016learning}{{1}{1}{section.1}}
+\backcite {mildenhall2020nerf}{{1}{1}{section.1}}
+\backcite {dhariwal2021diffusion}{{2}{1}{section.1}}
+\backcite {poole2022dreamfusion, watson2022novel}{{2}{1}{section.1}}
+\backcite {kulhanek2023consistent}{{2}{1}{section.1}}
+\backcite {barron2022mipnerf360, turki2022mega}{{2}{1}{section.1}}
+\backcite {martinbrualla2021nerfw, tancik2022blocknerf}{{2}{1}{section.1}}
+\backcite {chen2021mvsnerf, jain2021dietnerf, yang2023freenerf}{{2}{1}{section.1}}
+\backcite {yu2021plenoctrees, fridovichkeil2022plenoxels, mueller2022instant}{{2}{1}{section.1}}
+\backcite {mildenhall2020nerf}{{2}{2}{section.2}}
+\backcite {mildenhall2020nerf}{{2}{2.1}{subsection.2.1}}
+\backcite {mildenhall2020nerf}{{3}{2.1}{equation.1}}
+\backcite {kajiya1984ray, mildenhall2020nerf}{{3}{2.1}{equation.1}}
+\backcite {mildenhall2020nerf}{{3}{2.1}{equation.3}}
+\backcite {barron2021mipnerf}{{3}{2.1}{equation.3}}
+\backcite {zhang2020nerfplusplus, barron2022mipnerf360}{{3}{2.2}{subsection.2.2}}
+\backcite {zhang2020nerfplusplus}{{3}{2.2}{subsection.2.2}}
+\backcite {barron2022mipnerf360}{{3}{2.2}{subsection.2.2}}
+\backcite {barron2023zipnerf}{{4}{2.2}{subsection.2.2}}
+\backcite {mueller2022instant}{{4}{2.2}{subsection.2.2}}
+\backcite {martinbrualla2021nerfw, tancik2022blocknerf}{{4}{2.3}{subsection.2.3}}
+\backcite {martinbrualla2021nerfw}{{4}{2.3}{subsection.2.3}}
+\backcite {tancik2022blocknerf}{{4}{2.3}{subsection.2.3}}
+\backcite {yu2021pixelnerf, niemeyer2022regnerf}{{4}{2.4}{subsection.2.4}}
+\backcite {yu2021pixelnerf}{{4}{2.4}{subsection.2.4}}
+\backcite {chen2021mvsnerf}{{4}{2.4}{subsection.2.4}}
+\backcite {jain2021dietnerf}{{4}{2.4}{subsection.2.4}}
+\backcite {niemeyer2022regnerf}{{4}{2.4}{subsection.2.4}}
+\backcite {yang2023freenerf}{{4}{2.4}{subsection.2.4}}
+\backcite {mueller2022instant, chen2022tensorf}{{4}{2.5}{subsection.2.5}}
+\backcite {yu2021plenoctrees}{{4}{2.5}{subsection.2.5}}
+\backcite {sun2022dvgo}{{4}{2.5}{subsection.2.5}}
+\backcite {fridovichkeil2022plenoxels}{{4}{2.5}{subsection.2.5}}
+\backcite {chen2022tensorf}{{4}{2.5}{subsection.2.5}}
+\backcite {mueller2022instant}{{4}{2.5}{subsection.2.5}}
+\backcite {He2024Progress}{{5}{1}{table.1}}
+\backcite {mildenhall2020nerf}{{5}{1}{table.1}}
+\backcite {liu2020nsvf}{{5}{1}{table.1}}
+\backcite {yu2021plenoctrees}{{5}{1}{table.1}}
+\backcite {sun2022dvgo}{{5}{1}{table.1}}
+\backcite {sun2022dvgo}{{5}{1}{table.1}}
+\backcite {fridovichkeil2022plenoxels}{{5}{1}{table.1}}
+\backcite {karnewar2022relu}{{5}{1}{table.1}}
+\backcite {chen2022tensorf}{{5}{1}{table.1}}
+\backcite {yan2023plenvdb}{{5}{1}{table.1}}
+\backcite {hu2022efficientnerf}{{5}{1}{table.1}}
+\backcite {mueller2022instant}{{5}{1}{table.1}}
+\backcite {li2023nerfacc}{{5}{1}{table.1}}
+\backcite {He2024Progress}{{5}{3}{section.3}}

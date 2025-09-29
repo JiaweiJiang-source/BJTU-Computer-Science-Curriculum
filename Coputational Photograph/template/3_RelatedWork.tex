@@ -1,0 +1,25 @@
+\section{Related Works}
+\noindent\textbf{Pose or viewpoint estimation} has a long history in computer vision \cite{murphy2009head}. It arises in different applications, such as head \cite{murphy2009head}, pedestrian body \cite{raza2018appearance}, vehicle \cite{yang2018hierarchical} and object class \cite{su2015render} orientation/pose estimation. Although these systems are mostly developed independently, they are essentially the same problem in our framework.
+
+The current related literature using deep networks can be divided into two categories. Methods in the first group, such as \cite{rad2017bb8,grabner20183d,zhou2018starmap}, predict keypoints in images and then recover the pose using pre-defined 3D object models. The keypoints can be either semantic \cite{pavlakos20176,wu2016single,massa2016crafting} or the eight corners of a 3D bounding box encapsulating the object \cite{rad2017bb8,grabner20183d}. 
+
+The second category of methods, which are more close to our approach, estimate angular values directly from the image \cite{elhoseiny2016comparative,wang2016viewpoint}. Instead of the typical Euler angle representation for rotations \cite{elhoseiny2016comparative}, biternion representation is chosen in \cite{beyer2015biternion,prokudin2018deep} and inherits the periodicity in its $sin$ and $cos$ operations. However, their setting is compatible with only the regression. Several studies have evaluated the performance of classification and regression-based loss functions and conclude that the classification methods usually outperform the regression ones in pose estimation \cite{massa2016crafting,mahendran2018mixed}. 
+
+These limitations were also found in the recent approaches which combine classification with regression or even triplet loss \cite{mahendran2018mixed,yang2018hierarchical}.
+
+
+
+\noindent\textbf{Wasserstein distance} is a measure defined between probability distributions on a given metric space \cite{kolouri2016sliced}. Recently, it attracted much attention in generative models $etc$ \cite{arjovsky2017wasserstein}. \cite{frogner2015learning} introduces it for multi-class multi-label task with a linear model. Because of the significant amount of computing needed to solve the exact distance for general cases, these methods choose the approximate solution, whose complexity is still in $\mathcal{O}(N^2)$ \cite{cuturi2013sinkhorn}. The fast computing of discrete Wasserstein distance is also closely related to SIFT \cite{cha2002measuring} descriptor, hue in HSV or LCH space \cite{cha2002fast} and sequence data \cite{su2017order}. Inspired by the above works, we further adapted this idea to the pose estimation, and encode the geometry of label space by means of the ground matrix. We show that the fast algorithms exist in our pose label structure using the one-hot or conservative target label and the ground metric is not limited to the arc length. 
+
+
+
+
+
+
+
+\noindent\textbf{Robust training with noise data} has long been studied for general classification problems \cite{huber2011robust}. Smoothing the one-hot label \cite{szegedy2016rethinking} with a uniform distribution or regularizing the entropy of softmax output \cite{pereyra2017regularizing} are two popular solutions. Some works of regression-based localization model the uncertainty of point position in a plane with a 2D Gaussian distribution \cite{szeto2017click}. \cite{zou2019confidence} propose to regularize self-training with confidence. However, there are few studies for the discrete periodic label. Besides sampling on Gaussian, the Poisson and the Binomial distribution are further discussed to form a unimodal-uniform distribution.
+
+
+
+\noindent\textbf{Uncertainty quantification of pose estimation} aims to quantify the reliability of a result $e.g.,$ a confidence distribution of each class rather than a certain angle value for pose data \cite{prokudin2018deep}. A well-calibrated uncertainty is especially important for large systems to assess the consequence of a decision \cite{che2019deep,han2019unsupervised}. \cite{prokudin2018deep} proposes to output numerous sets of the mean and variation of Gaussian/Von-Mises distribution following \cite{beyer2015biternion}. It is unnecessarily complicated and is a somewhat ill-matched formulation as it assumes the pose label is continuous, while it is discrete. We argue that the $softmax$ is a natural function to capture discrete uncertainty, and is compatible with Wasserstein training.
+

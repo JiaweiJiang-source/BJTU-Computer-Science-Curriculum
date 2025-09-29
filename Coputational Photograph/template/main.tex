@@ -1,0 +1,88 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{iccv}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bbm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{multirow}
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+
+\iccvfinalcopy % *** Uncomment this line for the final submission
+
+\def\iccvPaperID{406} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+
+
+\begin{document}
+
+%%%%%%%%% TITLE
+\title{Conservative~ Wasserstein~ Training~ for~ Pose~ Estimation}
+
+\author{Xiaofeng Liu{$^{1,2\dag*}$},~ Yang Zou{$^{1\dag}$},~ Tong Che{$^{3\dag}$},~ Peng Ding{$^{4}$},~ Ping Jia{$^{4}$},~ Jane You{$^{5}$},~ B.V.K. Vijaya Kumar{$^{1}$}\\\vspace{-8pt}{\small~}\\
+{$^{1}$}Carnegie Mellon University;~~~ {$^{2}$}Harvard University;~~~ {$^{3}$}MILA \\ {$^{4}$}CIOMP, Chinese Academy of Sciences;~ {$^{5}$}The Hong Kong Polytechnic University\\
+{\small{{$^{\dag}$}Contribute equally~~{$^{*}$}Corresponding to: \tt{liuxiaofengcmu@gmail.com}}}
+}
+% For a paper whose authors are all at the same institution,
+% omit the following lines up until the closing ``}''.
+% Additional authors and addresses can be added with ``\and'',
+% just like the second author.
+% To save space, use either the email address or home page, not both
+
+
+
+\maketitle
+\thispagestyle{empty}
+
+
+
+
+
+
+
+\input{1_Abstract.tex}
+
+\input{2_Introduction.tex}
+
+\input{3_RelatedWork.tex}
+
+\input{4_Approach.tex}
+
+\input{4_Approach1.tex}
+
+\input{4_Approach2.tex}
+\input{4_Approach3.tex}
+\input{4_Approach4.tex}
+
+\input{5_Experiments.tex}
+\input{5_Experiments1.tex}
+\input{5_Experiments2.tex}
+\input{5_Experiments3.tex}
+\input{6_Conclusions.tex}
+
+
+
+
+
+
+
+{\small
+\bibliographystyle{ieee_fullname}
+\bibliography{egbib}
+}
+
+\end{document}

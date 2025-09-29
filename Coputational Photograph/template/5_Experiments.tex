@@ -1,0 +1,42 @@
+\section{Experiments}
+
+
+\begin{table}[t]  
+\scriptsize
+\renewcommand\arraystretch{1.2}
+\label{tab:different_nets}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\cline{1-2}\cline{4-5}
+
+
+{Method}&MAAD&\scriptsize{~}&{Method}&MAAD\\\cline{1-2}\cline{4-5}
+
+
+BIT\cite{beyer2015biternion}&25.2$^{\circ}$&\scriptsize{~}&A-${\mathcal{L}_{d_{i,j}}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&17.5$^{\circ}$\\\cline{1-2}\cline{4-5}
+
+
+
+DDS\cite{prokudin2018deep}$^\text{\dag}$&23.7$^{\circ}$&\scriptsize{~}&A-${\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&\underline{17.3}$^{\circ}$\\\cline{1-2}\cline{4-5}
+
+    
+$\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$&18.8$^{\circ}$&\scriptsize{~}& $\approx\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$&19.0$^{\circ}$\\\cline{1-2}\cline{4-5}
+
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}$&\textbf{17.1}$^{\circ}$&\scriptsize{~}&$\approx\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}$&17.8$^{\circ}$\\\cline{1-2}\cline{4-5}
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^{chord}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&$19.1^{\circ}$&\scriptsize{~}&$\approx\mathcal{L}_{{\rm\textbf{D}}_{i,j}^{chord}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&19.5$^{\circ}$\\\cline{1-2}\cline{4-5}
+
+
+
+\end{tabular}\label{con:1}
+\end{center}
+\caption{Results on CAVIAR head pose dataset (the lower MAAD the better).$^\text{\dag}$ Our implementation based on their publicly available codes. The best are in bold while the second best are underlined.}
+\end{table}
+
+
+
+In this section, we show the implementation details and experimental results on the head, pedestrian body, vehicle and 3D object pose/orientation estimation tasks. To illustrate the effectiveness of each setting choice and their combinations, we give a series of elaborate ablation studies along with the standard measures.
+
+
+We use the prefix A and $\approx$ denote the adaptively ground metric learning (in Sec. 3.1) and approximate computation of Wasserstein distance \cite{cuturi2013sinkhorn,frogner2015learning} respectively. ${(\rm{{\textbf{s},{\textbf{t}}}})}$ and ${(\rm{{\textbf{s},\overline{\textbf{t}}}})}$ refer to using one-hot or conservative target label. For instance, $\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$ means choosing Wasserstein loss with arc length as ground metric and using one-hot target label.

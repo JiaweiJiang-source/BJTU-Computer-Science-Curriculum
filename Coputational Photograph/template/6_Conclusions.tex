@@ -1,0 +1,9 @@
+\section{Conclusions}
+We have introduced a simple yet efficient loss function for pose estimation, based on the Wasserstein distance. Its ground metric represents the class correlation and can be predefined using an increasing function of arc length or learned by alternative optimization. Both the outlier and inlier noise in pose data are incorporated in a unimodal-uniform mixture distribution to construct the conservative label. We systematically discussed the fast closed-form solutions in one-hot and conservative label cases. The results show that the best performance can be achieved by choosing convex function, Binomial distribution for smoothing and solving its exact solution. Although it was originally developed for pose estimation, it is essentially applicable to other problems with discrete and periodic labels. In the future, we plan to develop a more stable adaptive ground metric learning scheme for more classes, and adjust the shape of conservative target distribution automatically.
+
+
+
+\section{Acknowledgement}
+The funding support from Youth Innovation Promotion Association, CAS (2017264), Innovative Foundation of
+CIOMP, CAS (Y586320150) and Hong Kong Government General Research Fund GRF (Ref. No.152202/14E) are greatly appreciated.
+

@@ -1,0 +1,25 @@
+\subsection{3D object pose} 
+
+
+
+
+
+
+
+PASCAL3D+ dataset \cite{xiang2014beyond} consists of 12 common categorical rigid object images from the Pascal VOC12 and ImageNet dataset \cite{deng2009imagenet} with both detection and pose annotations. On average, about 3,000 object instances per category are captured in the wild, making it challenging for estimating object pose. We follow the typical experimental protocol, that using ground truth detection for both training and testing, and choosing Pascal validation set to evaluate our viewpoint estimation quality \cite{mahendran2018mixed,prokudin2018deep,grabner20183d}.
+
+The pose of an object in 3D space is usually defined as a 3-tuple (azimuth, elevation, cyclo-rotation), and each of them is computed separately. We note that the range of elevation is [0,$\pi$], the Wasserstein distance for non-periodic ordered data can be computed via Eq. \eqref{con:ordinal}. We choose the Binomial-uniform mixture distribution ($\xi=0.2,\eta=0.05,K=20,p=0.5$) to construct our conservative label. The same data augmentation and ResNet50 from \cite{mahendran2018mixed} (mixture of CE and regression loss) is adopted for fair comparisons, which has 12 branches for each categorical and each branch has three softmax units for 3-tuple. 
+
+
+We consider two metrics commonly applied in literature: Accuracy at $\frac{\pi}{6}$, and Median error ($i.e.,$ the median of rotation angle error). Table \textcolor{red}{5} compares our approach with previous techniques. Our methods outperform previous approaches in both testing metrics. The improvements are more exciting than recent works. Specifically, $\small \mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$ outperforms \cite{mahendran2018mixed} by 3.37\% in terms of $Acc_{\frac{\pi}{6}}$, and the reduces $MedErr$ from 10.4 \cite{zhou2018starmap} to 9.37 (by 9.5\%).  
+
+Besides, we further evaluate $Acc\frac{\pi}{18}$, which assesses the percentage of more accurate predictions. This shows the prediction probabilities are closely distributed around the ground of truth pose.    
+
+
+
+
+
+
+
+
+

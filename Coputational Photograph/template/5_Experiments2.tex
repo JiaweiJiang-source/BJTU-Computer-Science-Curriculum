@@ -1,0 +1,221 @@
+\subsection{Pedestrians orientation}
+ 
+ 
+\begin{figure}[t]
+\centering
+\includegraphics[width=8.4cm]{fig//fig4.pdf}\\
+\caption{Normalized adaptively learned ground matrix and polar histogram $w.r.t.$ the number of training samples in TUD dataset.}\label{fig:4}
+\end{figure}
+ 
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+The TUD multi-view pedestrians dataset \cite{andriluka2010monocular} consists of 5,228 images along with bounding boxes. Its original annotations are relatively coarse, with only eight classes. We adopt the network in \cite{raza2018appearance} and show the results in Table \textcolor{red}{2}. Our methods, especially the $\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$ outperform the cross-entropy loss-based approach in all of the eight classes by a large margin. The improvements in the case of binomial-uniform regularization ($\xi=0.1,\eta=0.05,K=4,p=0.5$) seems limited for 8 class setting, because each pose label covers 45$^\circ$ resulting in relatively low noise level. 
+
+
+
+
+
+\begin{table}[t] 
+\renewcommand\arraystretch{1.2}
+\scriptsize
+\label{tab:different_nets}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+Method&0$^{\circ}$&$45^{\circ}$&$90^{\circ}$&135$^{\circ}$&180$^{\circ}$&225$^{\circ}$&270$^{\circ}$&315$^{\circ}$\\\hline\hline
+    
+ 
+CE loss\cite{raza2018appearance}&0.90&0.96&0.92&\textbf{1.00}&0.92&0.88&0.89&0.95\\\hline\hline      
+
+
+
+$\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$&0.93&0.97&0.95&\textbf{1.00}&\textbf{0.96}&0.91&0.91&0.95\\\hline 
+
+
+A-${\mathcal{L}_{d_{i,j}}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&0.94&0.97&\textbf{0.96}&\textbf{1.00}&0.95&0.92&0.91&\textbf{0.96}\\\hline    
+
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}$&\textbf{0.95}&0.97&\textbf{0.96}&\textbf{1.00}&\textbf{0.96}&0.92&0.91&\textbf{0.96}\\\hline 
+
+CE loss${(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&{0.90}&{0.96}&{0.94}&\textbf{1.00}&{0.92}&{0.90}&{0.90}&{0.95}\\\hline 
+
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&\textbf{0.95}&\textbf{0.98}&\textbf{0.96}&\textbf{1.00}&\textbf{0.96}&\textbf{0.93}&\textbf{0.92}&\textbf{0.96}\\\hline 
+   
+    
+\end{tabular}\label{tab:2}
+\end{center}
+\caption{Class-wise accuracy for TUD pedestrian orientation estimation with 8 pose setting (the higher the better).}
+\end{table}
+
+
+\begin{table}[t]  
+\scriptsize
+\renewcommand\arraystretch{1.2}
+\label{tab:different_nets}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Method&Mean AE&{$Acc_{\frac{\pi}{8}}$}&{$Acc_{\frac{\pi}{4}}$}\\\hline\hline
+RTF\cite{hara2017growing}&34.7&0.686&0.780\\\hline    
+SHIFT\cite{hara2017designing}&22.6&0.706&0.861\\\hline\hline  
+
+${\mathcal{L}_{d_{i,j}}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&19.1&0.748&0.900\\\hline
+A-${\mathcal{L}_{d_{i,j}}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&20.5&0.723&0.874\\\hline
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}$&18.5&0.756&0.905\\\hline
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}~|$ SHIFT ${(\rm{{\textbf{s},\overline{\textbf{t}}}})}_G$&\underline{16.4} $|$ 20.1&\underline{0.764} $|$ 0.724&\underline{0.909} $|$ 0.874\\\hline    
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}~|$ SHIFT ${(\rm{{\textbf{s},\overline{\textbf{t}}}})}_P$&17.7 $|$ 20.8&0.760 $|$ 0.720&0.907 $|$ 0.871\\\hline   
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}~|$ SHIFT ${(\rm{{\textbf{s},\overline{\textbf{t}}}})}_B$&\textbf{16.3} $|$ 20.1&\textbf{0.766} $|$ 0.723&\textbf{0.910} $|$ 0.875\\\hline\hline    
+
+Human \cite{hara2017designing}&9.1&0.907&0.993\\\hline    
+    
+\end{tabular}\label{tab:3}
+\end{center}
+\caption{Results on TUD pedestrian orientation estimation $w.r.t.$ Mean Absolute Error in degree (the lower the better) and {$Acc_{\frac{\pi}{8}}$},{$Acc_{\frac{\pi}{4}}$} (the higher the better). $|$ means ``or''. The suffix $G,P,B$ refer to Gaussian, Poison and Binomial-uniform mixture conservative target label, respectively.}
+\end{table}
+
+
+The adaptive ground metric learning can contribute to higher accuracy than the plain $\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$. Fig. \ref{fig:4} provides a visualization of the adaptively learned ground matrix. The learned $\overline{d}_{i,j}$ is slightly larger than ${d}_{i,j}$ when limited training samples are available in the related classes, $e.g., {d}_{225^{\circ},180^{\circ}}<{d}_{225^{\circ},270^{\circ}}$. A larger ground metric value may emphasize the class with fewer samples in the training.  
+
+We also utilize the 36-pose labels provided in \cite{hara2017growing,hara2017designing}, and adapt the backbone from \cite{hara2017designing}. We report the results $w.r.t.$ mean absolute error and accuracy at $\frac{\pi}{8}$ and $\frac{\pi}{4}$ in Table \textcolor{red}{3}, which are the percentage of images whose pose error is less than $\frac{\pi}{8}$ and $\frac{\pi}{4}$, respectively. Even the plain $\mathcal{L}_{d_{i,j}}(\rm{\textbf{s},{\textbf{t}}})$ outperforms SHIFT \cite{hara2017designing} by 4.4\% and 3.9\% $w.r.t.$ $Acc\frac{\pi}{8}$ and $Acc\frac{\pi}{4}$. Unfortunately, the adaptive ground metric learning is not stable when we scale the number of class to 36. 
+
+The disagreement of human labeling is significant in 36 class setting. In such a case, our conservative target label is potentially helpful. The discretized Gaussian distribution ($\xi=0.1,\eta=0.05,\mu=5,\sigma^2=2.5$) and Binomial distribution ($\xi=0.1,\eta=0.05,K=10,p=0.5$) show similar performance, while the Poisson distribution ($\xi=0.1,\eta=0.05,K=10,\lambda=5$) appears less competitive. Note that the variance of Poisson distribution is equal to its mean $\lambda$, and it approximates a symmetric distribution with a large $\lambda$. Therefore, it is not easy to control the shape of target distribution. Our $\small \mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}_B$ outperforms \cite{hara2017designing} by 6.3$^\circ$, 6\% and 4.9\% in terms of Mean AE, $Acc\frac{\pi}{8}$ and $Acc\frac{\pi}{4}$.  
+
+
+
+
+
+
+
+\subsection{Vehicle orientation}
+
+The EPFL dataset \cite{ozuysal2009pose} contains 20 image sequences of 20 car types at a show. We follow \cite{hara2017designing} to choose ResNet-101 \cite{he2016deep} as the backbone and use 10 sequences for training and the other 10 sequences for testing. As shown in Table \textcolor{red}{4}, the Huber function ($\tau=10$) can be beneficial for noisy data learning, but the improvements appear to be not significant after we have modeled the noise in our conservative target label with Binomial distribution ($\xi=0.2,\eta=0.05,K=30,p=0.5$). Therefore, we would recommend choosing $\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}$ and Binomial-uniform mixture distribution as a simple yet efficient combination. The model is not sensitive to the possible inequality of $\sum_{i=0}^{N-1}t_i$ and $\sum_{i=0}^{N-1}s_i$ caused by numerical precision.     
+
+
+Besides, we visualize the second-to-last layer representation of some sequences in Fig. \ref{fig:5} left. As shown in Fig. \ref{fig:5} right, the shape of Binomial distribution is important for performance. It degrades to one-hot or uniform distribution when $K=0$ or a large value. All of the hyper-parameters in our experiments are chosen via grid searching. We see a 27.8\% Mean AE decrease from \cite{hara2017designing} to $\small \mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$, and 33\% for Median AE.  
+
+
+
+\begin{table}  
+\scriptsize
+\renewcommand\arraystretch{1.2}
+\label{tab:different_nets}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Method&Mean AE&Median AE\\\hline\hline
+  
+HSSR\cite{yang2018hierarchical}&20.30&3.36\\\hline     
+SMMR\cite{huang2017soft}&12.61&3.52\\\hline
+SHIFT\cite{hara2017designing}&9.86&3.14\\\hline\hline
+$\mathcal{L}_{d_{i,j}}{(\rm{{\textbf{s},{\textbf{t}}}})}|{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&6.46 $|$ 6.30&2.29 $|$ 2.18\\\hline  
+
+$\mathcal{L}_{d_{i,j}}{(\rm{{\textbf{s},{\textbf{t}}}})}|{(\rm{{\textbf{s},\overline{\textbf{t}}}})},t_j*=\sum_{i=0}^{N-1}s_i$$^\text{\dag}$&6.46 $|$ 6.30&2.29 $|$ 2.18\\\hline  
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}|{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&6.23 $|$ \textbf{6.04}&2.15 $|$ \underline{2.11}\\\hline  
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}|{(\rm{{\textbf{s},\overline{\textbf{t}}}})},t_j*=\sum_{i=0}^{N-1}s_i$$^\text{\dag}$&6.23 $|$ \textbf{6.04}&2.15 $|$ \underline{2.11}\\\hline  
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^3}{(\rm{{\textbf{s},{\textbf{t}}}})}|{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&6.47 $|$ 6.29&2.28 $|$ 2.20\\\hline  
+
+
+$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^{H\tau}}{(\rm{{\textbf{s},{\textbf{t}}}})}|{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&6.20 $|$ \textbf{6.04}&2.14 $|$ \textbf{2.10}\\\hline    
+
+\end{tabular}\label{tab:4}
+\end{center}
+\caption{Results on EPFL $w.r.t.$ Mean and Median Absolute Error in degree (the lower the better). $|$ means ``or''.$^\text{\dag}$ denotes we assign $t_j*=\sum_{i=0}^{N-1}s_i$, and $t_j*=1$ in all of the other cases.}
+\end{table}
+
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=8.3cm]{fig//fig5.pdf}\\
+\caption{Left: The second-to-last layer feature of the 7 sequences in EPFL testing set with t-SNE mapping (not space position/angle). Right: Mean AE as a function of $K$ for the Binomial distribution showing that the hyper-parameter $K$ matters.}\label{fig:5}
+\end{figure}
+
+
+
+
+
+\begin{table*}[t]  
+\tiny
+\label{tab:different_nets}
+\begin{center}
+\begin{tabular}{|c|c|c|cccccccccccc|c|}
+\cline{3-16}
+\multicolumn{2}{c|}{~}&backbone&aero&bike&boat&bottle&bus&car&chair&table&mbike&sofa&train&tv&mean\\\hline
+
+\multirow{12}*{\rotatebox{90}{$Acc_{\frac{\pi}{6}}$}}&Tulsiani $et~al.$ \cite{tulsiani2015viewpoints}&AlexNet+VGG&0.81&0.77&0.59&0.93&\textbf{0.98}&0.89&0.80&0.62&{0.88}&0.82&0.80&0.80&0.8075\\
+    &Su $et~al.$ \cite{su2015render}&AlexNet$^\text{\dag}$&0.74&0.83&0.52&0.91&0.91&0.88&0.86&0.73&0.78&0.90&0.86&\textbf{0.92}&0.82\\
+    &Mousavian $et~al.$ \cite{mousavian20173d}&VGG&0.78&0.83&0.57&0.93&0.94&0.90&0.80&0.68&0.86&0.82&0.82&0.85&0.8103\\   
+  & Pavlakos $et~al.$ \cite{pavlakos20176}&Hourglass&0.81&0.78&0.44&0.79&0.96&0.90&0.80&N/A&N/A&0.74&0.79&0.66&N/A\\ 
+   
+   &Mahendran $et~al.$ \cite{mahendran2018mixed}&ResNet50$^\text{\dag}$&0.87&0.81&0.64&\textbf{0.96}&\underline{0.97}&\underline{0.95}&\textbf{0.92}&0.67&0.85&\textbf{0.97}&0.82&0.88&0.8588\\
+            &Grabner $et~.al.$ \cite{grabner20183d}&ResNet50&0.83&0.82&0.64&0.95&\underline{0.97}&0.94&0.80&0.71&0.88&0.87&0.80&0.86&0.8392\\
+            
+    &Zhou $et~al.$ \cite{zhou2018starmap}&ResNet18&0.82&\textbf{0.86}&0.50&0.92&\underline{0.97}&0.92&0.79&0.62&0.88&0.92&0.77&0.83&0.8225\\
+    &Prokudin $et~al.$ \cite{prokudin2018deep}&InceptionResNet&0.89&0.83&0.46&\textbf{0.96}&0.93&0.90&0.80&0.76&0.90&\textbf{0.90}&0.82&\underline{0.91}&0.84\\\cline{2-16}
+   
+    
+&${\mathcal{L}_{d_{i,j}}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&0.88&0.79&\underline{0.67}&0.93&0.96&\textbf{0.96}&0.86&0.73&0.86&0.91&\textbf{0.89}&0.87&0.8735\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&0.89&\underline{0.84}&\underline{0.67}&\textbf{0.96}&0.95&\underline{0.95}&0.87&0.75&0.88&0.92&\underline{0.88}&0.89&0.8832\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^{H\tau}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&\underline{0.90}&0.82&\textbf{0.68}&0.95&\underline{0.97}&0.94&\underline{0.89}&\underline{0.76}&0.88&\underline{0.93}&0.87&0.88&\underline{0.8849}\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&ResNet50&\textbf{0.91}&0.82&\underline{0.67}&\textbf{0.96}&\underline{0.97}&\underline{0.95}&\underline{0.89}&\textbf{0.79}&\textbf{0.90}&\underline{0.93}&0.85&0.90&\textbf{0.8925}\\\hline\hline    
+    
+       
+\multirow{7}*{\rotatebox{90}{$Acc_{\frac{\pi}{18}}$}}&Zhou $et~al.$ \cite{zhou2018starmap}&ResNet18&0.49&0.34&0.14&0.56&\textbf{0.89}&\textbf{0.68}&0.45&0.29&0.28&\textbf{0.46}&0.58&0.37&0.4818\\\cline{2-16}
+     
+&${\mathcal{L}_{d_{i,j}}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&0.48&0.64&\textbf{0.20}&\textbf{0.60}&0.83&0.62&0.42&0.37&0.32&0.42&0.58&0.39&0.5020\\
+
+&${\mathcal{L}_{d_{i,j}}}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&ResNet50&0.48&0.65&\underline{0.19}&0.58&0.86&0.64&0.45&0.38&\underline{0.35}&0.41&0.55&0.36&0.5052\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&0.49&0.63&0.18&0.56&0.85&\underline{0.67}&\underline{0.47}&\textbf{0.41}&0.26&0.43&\textbf{0.62}&0.38&0.5086\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&ResNet50&\underline{0.51}&0.65&\underline{0.19}&\underline{0.59}&0.86&0.63&\textbf{0.48}&\underline{0.40}&0.28&0.41&0.57&\underline{0.40}&\underline{0.5126}\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^{H\tau}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&\textbf{0.52}&\textbf{0.67}&0.16&0.58&\underline{0.88}&\underline{0.67}&0.45&0.33&0.25&0.44&\underline{0.61}&0.35&0.5108\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^{H\tau}}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&ResNet50&0.50&\underline{0.66}&0.17&0.55&0.85&0.65&0.46&\underline{0.40}&\textbf{0.38}&\underline{0.45}&0.59&\textbf{0.41}&\textbf{0.5165}\\\hline\hline        
+
+
+\multirow{12}*{\rotatebox{90}{$MedErr$}}&Tulsiani $et~al.$ \cite{tulsiani2015viewpoints}&AlexNet+VGG&13.8&17.7&21.3&12.9&5.8&9.1&14.8&15.2&14.7&13.7&8.7&15.4&13.59\\
+
+    &Su $et~al.$ \cite{su2015render}&AlexNet&15.4&14.8&25.6&9.3&3.6&6.0&9.7&10.8&16.7&9.5&6.1&12.6&11.7\\
+    &Mousavian $et~al.$ \cite{mousavian20173d}&VGG&13.6&12.5&22.8&8.3&3.1&5.8&11.9&12.5&12.3&12.8&6.3&11.9&11.15\\
+    &Pavlakos $et~al.$ \cite{pavlakos20176}&Hourglass&11.2&15.2&37.9&13.1&4.7&6.9&12.7&N/A&N/A&21.7&9.1&38.5&N/A\\
+    &Mahendran $et~al.$ \cite{mahendran2018mixed}&ResNet50&\textbf{8.5}&14.8&20.5&7.0&3.1&5.1&\textbf{9.3}&11.3&14.2&10.2&5.6&11.7&11.10\\
+    &Grabner $et~al.$ \cite{grabner20183d}&ResNet50&10.0&15.6&\textbf{19.1}&8.6&3.3&5.1&13.7&11.8&12.2&13.5&6.7&11.0&10.88\\
+    &Zhou $et~al.$ \cite{zhou2018starmap}&ResNet18&10.1&14.5&30.3&9.1&3.1&6.5&11.0&23.7&14.1&11.1&7.4&13.0&10.4\\ &Prokudin $et~al.$ \cite{prokudin2018deep}&InceptionResNet&\underline{9.7}&15.5&45.6&\textbf{5.4}&2.9&\underline{4.5}&13.1&12.6&11.8&\textbf{9.1}&\underline{4.3}&12.0&12.2\\\cline{2-16}
+    
+
+&${\mathcal{L}_{d_{i,j}}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&9.8&13.2&26.7&6.5&\textbf{2.5}&\textbf{4.2}&\underline{9.4}&10.6&\textbf{11.0}&10.5&\textbf{4.2}&\textbf{9.8}&9.55\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&10.5&12.6&23.1&5.8&\underline{2.6}&5.1&9.6&11.2&\underline{11.5}&9.7&\underline{4.3}&\underline{10.4}&9.47\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^{H\tau}}{(\rm{{\textbf{s},{\textbf{t}}}})}$&ResNet50&11.3&\textbf{11.8}&\underline{19.2}&6.8&3.1&5.0&10.1&\textbf{9.8}&11.8&\underline{9.4}&4.7&11.2&\underline{9.46}\\
+
+&$\mathcal{L}_{{\rm\textbf{D}}_{i,j}^2}{(\rm{{\textbf{s},\overline{\textbf{t}}}})}$&ResNet50&10.1&\underline{12.0}&21.4&\underline{5.6}&2.8&4.6&10.0&\underline{10.3}&12.3&9.6&4.5&11.6&\textbf{9.37}\\\hline 
+
+
+
+
+
+\end{tabular}\label{tab:5}
+\end{center}
+\caption{Results on PASCAL 3D+ view point estimation $w.r.t.$ $Acc_{\frac{\pi}{6}}$ $Acc_{\frac{\pi}{18}}$ (the higher the better) and $MedErr$ (the lower the better). Our results are based on ResNet50 backbone and without using external training data.}
+\end{table*}

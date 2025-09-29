@@ -1,0 +1,31 @@
+\section{Methodology}
+
+We consider learning a pose estimator ${h}_\theta$, parameterized by $\theta$, with $N$-dimensional softmax output unit. It maps a image {\rm\textbf{x}} to a vector ${\rm\textbf{s}}\in\mathbb{R}^N$. We perform learning over a hypothesis space $\mathcal{H}$ of ${h}_\theta$. Given input {\rm\textbf{x}} and its target ground truth one-hot label ${\rm\textbf{t}}$, typically, learning is performed via empirical risk minimization to solve $\mathop{}_{{h}_\theta\in\mathcal{H}}^{\rm min}\mathcal{L}({h}_\theta({\rm\textbf{x}}),{\rm\textbf{t}})$, with a loss $\mathcal{L}(\cdot,\cdot)$ acting as a surrogate of performance measure.
+
+Unfortunately, cross-entropy, information divergence, Hellinger distance and $\mathcal{X}^2$ distance-based loss treat the output dimensions independently \cite{frogner2015learning}, ignoring the similarity structure on pose label space.  
+
+Let ${\rm\textbf{s}}=\left\{s_i\right\}_{i=0}^{N-1}$ be the output of ${h}_\theta({\rm\textbf{x}})$, $i.e.,$ softmax prediction with $N$ classes (angles), and define ${\rm\textbf{t}}=\left\{t_j\right\}_{j=0}^{N-1}$ as the target label distribution, where $i,j\in\left\{0,\cdots,{\small N-1}\right\}$ be the index of dimension (class). Assume class label possesses a ground metric ${\rm\textbf{D}}_{i,j}$, which measures the semantic similarity between $i$-th and $j$-th dimensions of the output. There are $N^2$ possible ${\rm\textbf{D}}_{i,j}$ in a $N$ class dataset and form a ground distance matrix $\textbf{D}\in\mathbb{R}^{N\times N}$. When ${\rm\textbf{s}}$ and ${\rm\textbf{t}}$ are both histograms, the discrete measure of exact Wasserstein loss is defined as \begin{equation}
+\mathcal{L}_{\textbf{D}_{i,j}}({\rm{\textbf{s},\textbf{t}}})=\mathop{}_{\textbf{W}}^{{\rm inf}}\sum_{j=0}^{N-1}\sum_{i=0}^{N-1}\textbf{D}_{i,j}\textbf{W}_{i,j} \label{con:df}
+\end{equation} where \textbf{W} is the transportation matrix with \textbf{W}$_{i,j}$ indicating the mass moved from the $i^{th}$ point in source distribution to the $j^{th}$ target position. A valid transportation matrix \textbf{W} satisfies: $\textbf{W}_{i,j}\geq 0$; $\sum_{j=0}^{N-1}\textbf{W}_{i,j}\leq s_i$; $\sum_{i=0}^{N-1}\textbf{W}_{i,j}\leq t_j$; $\sum_{j=0}^{N-1}\sum_{i=0}^{N-1}\textbf{W}_{i,j}={\rm min}(\sum_{i=0}^{N-1}s_i,\sum_{j=0}^{N-1}t_j)$.
+
+
+
+The ground distance matrix ${\rm\textbf{D}}$ in Wasserstein distance is usually unknown, but it has clear meanings in our application. Its $i,j$-th entry ${\rm\textbf{D}}_{i,j}$ could be the geometrical distance between the $i$-th and $j$-th points in a circle. A possible choice is using the arc length ${d_{i,j}}$ of a circle ($i.e., \ell_1$ distance between the $i$-th and $j$-th points in a circle) as the ground metric $\textbf{D}_{i,j}={d_{i,j}}$.
+
+\begin{equation}
+d_{i,j}={\rm min}\left\{|i-j|,N-|i-j|\right\} \label{con:d}
+\end{equation}  
+
+
+The Wasserstein distance is identical to the Earth mover's distance when the two distributions have the same total masses ($i.e., \sum_{i=0}^{N-1}s_i=\sum_{j=0}^{N-1}t_j$) and using the symmetric distance $d_{i,j}$ as ${\rm\textbf{D}}_{i,j}$.
+
+
+
+This setting is satisfactory for comparing the similarity of SIFT or hue \cite{rubner2000earth}, which do not use a neural network optimization. The previous efficient algorithm usually holds only for $\textbf{D}_{i,j}={d_{i,j}}$. We propose to extend the ground metric in ${\rm\textbf{D}}_{i,j}$ as $f(d_{i,j})$, where $f$ is a positive increasing function $w.r.t.$ $d_{i,j}$. 
+
+
+
+
+
+
+ 

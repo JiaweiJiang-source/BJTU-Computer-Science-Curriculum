@@ -1,0 +1,48 @@
+\subsection{Wrapped unimodal-uniform smoothing}
+
+
+
+The outlier noise exists in most of data-driven tasks, and can be modeled by a uniform distribution \cite{szegedy2016rethinking}. However, pose labels are more likely to be mislabeled as a close class of the true class. It is more reasonable to construct a unimodal distribution to depict the inlier noise in pose estimation, which has a peak at class $j^*$ while decreasing its value for farther classes. We can sample on a continuous unimodal distribution ($e.g.,$ Gaussian distribution) and followed by normalization, or choose a discrete unimodal distribution ($e.g.,$ Poisson/Binomial distribution). 
+
+
+\noindent\textbf{Gaussian/Von-Mises Distribution} has the probability density function (PDF) $f(x)=\frac{{\rm{exp}}\left\{-(x-\mu)^2/2\sigma^2\right\}}{\sqrt{2\pi\sigma^2}}$ for $x\in [0,\small K]$, where $\mu=K/2$ is the mean, and $\sigma^{2}$ is the variance. Similarly, the Von-Mises distribution is a close approximation to the circular analogue of the normal distribution ($i.e., \small K=N-1$). We note that the geometric loss \cite{su2015render} is a special case, when we set $\xi=1,\eta=0$, $\small{K=N-1}$, remove the normalization and adopt CE loss. Since we are interested in modeling a discrete distribution for target labels, we simply apply a softmax operation over their PDF. Note that the output values are mapped to be defined on the circle.
+
+ 
+
+\noindent\textbf{Poisson Distribution} is used to model the probability of the number of events, $k$ occurring in a particular interval of time. Its probability mass function (PMF) is:\vspace{-5pt}\begin{equation}
+p_k=\frac{\lambda^k{\rm{exp}}(-\lambda)}{k!},~~~k= 0, 1, 2, ...,       
+\end{equation}\vspace{-2pt}where $\lambda\in \mathbb{R}^+$ is the average frequency of these events. We can sample $K+1$ probabilities ($i.e., 0\leq k\leq K$) on this PMF and followed by normalization for discrete unimodal probability distributions. Since its mean and variation are the same ($i.e., \lambda$), it maybe inflexible to adjust its shape.     
+
+
+\noindent\textbf{Binomial Distribution} is commonly adopted to model the probability of a given number of successes out of a given number of trails $k$ and the success probability $p$.\vspace{-5pt}\begin{equation}
+p_k={n\choose k}p^k(1-p)^{n-k},~~~n\in\mathbb{N},~~k=0,1,2, ...,n
+\end{equation}\vspace{-2pt}We set $n=K$ to construct a distribution with $K+1$ bins without softmax normalization. Its warp processing with $K=20$ is illustrated in Fig. \ref{fig:3}.
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=8.2cm]{fig//fig3.pdf}\\
+\caption{Left: the wrapping operation with a Binomial distribution ($\small K+1$ is the number of involved classes of unimodal distribution). Right: the distribution of conservative target label.}\label{fig:3}
+\end{figure}
+
+The conservative target distribution ${\rm{{\overline{\textbf{t}}}}}$ is constructed by replacing $t_{j}$ in ${\rm\textbf{t}}$ with $(1-\xi-\eta)t_{j}+\xi p_j +\eta \frac{1}{N}$, which can be regarded as the weighted sum of the original label distribution ${\rm\textbf{t}}$ and a unimodal-uniform mixture distribution. When we only consider the uniform distribution and utilize the CE loss, it is equivalent to label smoothing \cite{szegedy2016rethinking}, a typical mechanism for outlier noisy label training, which encourages the model to accommodate less-confident labels. 
+
+
+By enforcing {\rm\textbf{s}} to form a unimodal-uniform mixture distribution, we also implicitly encourage the probabilities to distribute on the neighbor classes of $j^*$.
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

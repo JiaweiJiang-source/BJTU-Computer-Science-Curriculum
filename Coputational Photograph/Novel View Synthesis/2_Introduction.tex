@@ -1,0 +1,32 @@
+% 确保在导言区加载了 graphicx 宏包
+% \usepackage{graphicx}
+
+\begin{figure*}[t] % 使用 figure* 实现全宽，[t] 建议放在顶部
+    \centering % 图像居中
+    \includegraphics[
+        width=\textwidth,        % 设置显示宽度为文本宽度
+        trim={0cm 3cm 2cm 1.2cm}, % 【关键】裁切量：左 下 右 上 - 请根据你的图片调整这些数值!
+        clip                     % 应用裁切
+    ]{./fig/3.pdf}             % 【检查】确保图片路径和文件名正确!
+    \caption{Timeline illustrating the evolution of Novel View Synthesis (NVS). Key phases include Geometric Methods, Learned Regression, Generative Models, the NeRF Revolution, and Diffusion Models \& Hybrids.} % 标题
+    % --- 修改了标签以确保唯一性 ---
+    \label{fig:nvs_timeline_figure} % 使用唯一的标签
+    % --- 标签修改结束 ---
+\end{figure*}
+
+\section{Introduction}
+
+Novel View Synthesis (NVS), the task of generating photorealistic images of a scene from arbitrary viewpoints given a set of input views, stands as a fundamental challenge in computer vision and computer graphics. Its applications are widespread, ranging from immersive virtual and augmented reality (VR/AR) experiences and robotics to visual effects and digital content creation. The core challenge lies in inferring the underlying 3D scene structure and appearance from limited, often sparsely sampled, visual data to render plausible novel perspectives.
+
+Early approaches to NVS were predominantly geometry-based, relying heavily on classical Structure-from-Motion (SfM) and Multi-View Stereo (MVS) techniques to explicitly reconstruct 3D scene geometry (e.g., point clouds, meshes, or depth maps) \cite{snavely2006photo, goesele2007multi}. While foundational, these methods often struggle to produce highly photorealistic renderings, particularly in regions with complex non-Lambertian surfaces, intricate details, or significant occlusions. Furthermore, the quality of the synthesized views is critically dependent on the accuracy of the intermediate geometric reconstruction, which can be fragile.
+% Note: Added a generic citation placeholder for the summary point if needed
+
+The advent of deep learning ushered in a new era for NVS. Regression-based methods emerged, leveraging convolutional neural networks (CNNs) to directly predict novel view images \cite{flynn2016deepstereo}. Many subsequent works integrated learned components with 3D representations and differentiable rendering pipelines \cite{kato2018neural}. While initially often scene-specific, significant progress has been made towards few-shot NVS, enabling generalization across scenes from only one or a few input images, sometimes employing meta-learning or test-time optimization strategies \cite{yu2021pixelnerf}. % Note: Added a generic citation placeholder for the summary point if needed
+
+Concurrently, generative models gained traction, particularly for challenging scenarios involving large viewpoint extrapolation where geometric priors might be weak or absent \cite{wiles2020pixelsynth, rombach2021geometry}. These models excel at synthesizing plausible scene content by learning powerful priors from data, capable of filling in significant missing information \cite{niemeyer2021giraffe, ren2022look}. 3D Generative Adversarial Networks (GANs) also demonstrated capability in generating 3D objects, although often limited to object-centric setups and canonical poses \cite{wu2016learning}. However, maintaining long-range geometric and temporal consistency remained a challenge for purely generative approaches without strong 3D guidance.
+
+A pivotal moment arrived with the introduction of Neural Radiance Fields (NeRF) \cite{mildenhall2020nerf}. By representing a scene as a continuous volumetric function optimized via neural networks and rendered using differentiable volume rendering, NeRF achieved unprecedented photorealism and view consistency. This breakthrough spurred a massive wave of research, establishing NeRF as a cornerstone of modern NVS.
+
+Most recently, diffusion models \cite{dhariwal2021diffusion}, initially demonstrating state-of-the-art performance in 2D image synthesis, have been successfully adapted for NVS and 3D-aware generation \cite{poole2022dreamfusion, watson2022novel}. These methods often combine the generative power of diffusion with geometric priors or integrate with NeRF-like representations, aiming to achieve both realism and multi-view consistency \cite{kulhanek2023consistent}. % Note: Added a generic citation placeholder for the summary point if needed
+
+This paper provides a comprehensive survey of the evolution of Novel View Synthesis techniques. It traces the trajectory from early geometric foundations through the rise of deep learning-based regression and generative models, culminating in the current landscape dominated by Neural Radiance Fields and diffusion models. The primary focus of this paper is an in-depth analysis of NeRF-based approaches. This paper systematically discuss the application demands driving NeRF development, identify the core challenges encountered (e.g., foreground/background ambiguity, handling dynamic elements, optimizing from limited samples, computational cost), review proposed solution strategies (e.g., decomposition, appearance modeling, priors, architectural optimizations), and provide a structured taxonomy of the burgeoning NeRF literature. This includes works focusing on large-scale unbounded scenes \cite{barron2022mipnerf360, turki2022mega}, handling dynamic scenes and complex illumination \cite{martinbrualla2021nerfw, tancik2022blocknerf}, reconstructing from few input views \cite{chen2021mvsnerf, jain2021dietnerf, yang2023freenerf}, and accelerating training and inference \cite{yu2021plenoctrees, fridovichkeil2022plenoxels, mueller2022instant}. By contextualizing NeRF within the broader history of NVS and organizing its variants, this survey aims to offer a valuable resource for researchers and practitioners navigating this rapidly evolving field.

@@ -1,0 +1,69 @@
+% ======================================================================
+% == Section: Quantitative Comparison ==
+% ======================================================================
+
+
+\section{Quantitative Comparison}
+\label{sec:quantitative_comparison} % Section 标签
+
+To provide a clearer picture of the performance trade-offs among different NeRF advancements, this section presents quantitative results on standard benchmarks. Evaluating NeRF variants typically involves measuring image reconstruction quality using metrics like PSNR (Peak Signal-to-Noise Ratio) and SSIM (Structural Similarity Index), perceptual similarity using LPIPS (Learned Perceptual Image Patch Similarity), and computational efficiency in terms of rendering speed (Frames Per Second, FPS) and training time.
+
+Table~\ref{tab:nerf_acceleration_comparison} specifically summarizes the performance of various methods aimed at accelerating NeRF training and inference, evaluated on the widely used NeRF-Synthetic (Blender) dataset. It highlights the significant progress made in reducing computational cost while maintaining or even improving rendering quality compared to the original NeRF.
+
+% --- Data Disclaimer ---
+\textit{Note:} The data presented in Table~\ref{tab:nerf_acceleration_comparison} is adapted from the survey by He et al.~\cite{He2024Progress}.
+
+
+% --- 表格代码结束 ---
+
+% % --- LaTeX Table Code (Acceleration Methods on NeRF-Synthetic) ---
+% % --- Make sure \usepackage{booktabs} is in your preamble ---
+% \begin{table*}[t] % Use table* to span two columns, [t] suggests top placement
+%     \centering
+%     \caption{Performance comparison of NeRF acceleration methods on the NeRF-Synthetic dataset. Metrics include PSNR↑ (higher is better), SSIM↑ (higher is better), LPIPS↓ (lower is better), Rendering Speed(FPS)↑ (higher is better), and Training Time↓ (lower is better). Data adapted from He et al.~\cite{He2024Progress}.}
+%     \label{tab:nerf_acceleration_comparison}
+%     \resizebox{\textwidth}{!}{% Optional: Remove if table fits without resizing
+%     \begin{tabular}{l c c c c c}
+%       \toprule
+%       Method & PSNR↑ & SSIM↑ & LPIPS↓ & Speed (FPS)↑ & Training Time↓ \\
+%       \midrule
+%       NeRF~\cite{mildenhall2020nerf}        & 31.01 & 0.947 & 0.081 & 0.023 & ~56 h \\
+%       NSVF~\cite{liu2020nsvf}               & 31.75 & 0.953 & 0.047 & 0.815 & ~100 h \\
+%       PlenOctrees~\cite{yu2021plenoctrees} & 31.71 & 0.958 & 0.053 & 167.68 & ~58 h (incl. baking) \\
+%       DVGO~\cite{sun2022dvgo}               & 31.95 & 0.957 & 0.053 & -     & ~14.2 min \\
+%       DVGOv2~\cite{sun2022dvgo}             & 32.76 & 0.962 & 0.046 & -     & ~6 min \\ % Note: Using sun2022dvgo key, represents V2 results from source
+%       Plenoxels~\cite{fridovichkeil2022plenoxels} & 31.71 & 0.958 & 0.049 & -     & ~11 min \\
+%       ReLU Fields~\cite{karnewar2022relu}       & 30.04 & -     & 0.050 & -     & ~10 min \\
+%       TensoRF~\cite{chen2022tensorf}           & 33.14 & 0.963 & 0.047 & -     & ~17.6 min \\
+%       PlenVDB~\cite{yan2023plenvdb}             & 31.90 & -     & -     & 20.75 & ~12.4 min \\
+%       EfficientNeRF~\cite{hu2022efficientnerf} & 31.68 & 0.954 & 0.028 & 238.46 & ~6 h \\
+%       Instant NGP~\cite{mueller2022instant}   & 32.11 & 0.961 & 0.053 & -     & ~5 min \\ % Speed implied very fast, but specific FPS not in source table
+%       NeRFAcc~\cite{li2023nerfacc}           & 33.11 & -     & 0.053 & -     & ~4.5 min \\
+%       \bottomrule
+%     \end{tabular}%
+%     } % End resizebox (optional)
+%   \end{table*}
+
+% % ======================================================================
+% % == Section: Quantitative Comparison ==
+% % ======================================================================
+
+% \section{Quantitative Comparison}
+% \label{sec:quantitative_comparison}
+
+% To provide a clearer picture of the performance trade-offs among different NeRF advancements, this section presents quantitative results on standard benchmarks. Evaluating NeRF variants typically involves measuring image reconstruction quality using metrics like PSNR (Peak Signal-to-Noise Ratio) and SSIM (Structural Similarity Index), perceptual similarity using LPIPS (Learned Perceptual Image Patch Similarity), and computational efficiency in terms of rendering speed (Frames Per Second, FPS) and training time.
+
+% Table~\ref{tab:nerf_acceleration_comparison} specifically summarizes the performance of various methods aimed at accelerating NeRF training and inference, evaluated on the widely used NeRF-Synthetic (Blender) dataset. It highlights the significant progress made in reducing computational cost while maintaining or even improving rendering quality compared to the original NeRF.
+
+% % --- Data Disclaimer ---
+% \textit{Note:} The data presented in Table~\ref{tab:nerf_acceleration_comparison} is adapted from the survey by He et al.~\cite{He2024Progress}. While transcribed carefully, these results should be interpreted with caution, as performance can vary based on specific implementations, hardware, and evaluation protocols. Readers are encouraged to consult the original publications for definitive results and further details.
+
+% % --- End of Table ---
+
+% % TODO: Add discussion comparing the methods in the table.
+% % For example: "As shown in the table, methods like Instant NGP and TensoRF achieve significant speedups..."
+% % "Explicit grid-based methods (DVGO, Plenoxels) drastically reduce training time compared to the original NeRF..."
+% % "Methods focusing purely on rendering speed like PlenOctrees and EfficientNeRF show high FPS..."
+
+% % TODO: Optionally, add other tables here (e.g., for Unbounded Scenes or Sparse Views) following the same structure.
+
