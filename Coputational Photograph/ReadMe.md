@@ -15,4 +15,4 @@
 
 ## 目录
 1. [Novel View Synthesis（期中综述）](./Novel%20View%20Synthesis/)
-2. [PromptRR（结课PPT展示）](./template/PromptRR.pptx)
+2. [PromptRR（结课PPT展示）](./PromptRR.pptx)
