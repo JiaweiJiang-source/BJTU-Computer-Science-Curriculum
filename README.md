@@ -8,15 +8,13 @@
 ### 💡 使用建议 (Tips)
 
 本仓库的过往作业和实验代码旨在为大家**提供思路与参考**，尤其是在你遇到困难、无从下手时。**强烈不建议直接抄袭**。(但我相信AIGC的发展, 学弟学妹们也可以easily handle it!😊) \
-⚠️: 我也有许多作业写的很随意(轻喷)
+⚠️: 我也有许多作业写的很随意, 很多项目代码也是💩山, 有一些文件也整理的比较乱(轻喷🙏)
 
 🌹 特别鸣谢: 一路陪伴和支持我的**Gemini 2.5 Pro**, Gemini 2.5 Flash, ChatGPT, ChatGPT 4o!
 
 ---
 
 ## 📚 课程目录 (Directory Structure)
-
-点击下方的链接即可直接跳转到对应的课程资料文件夹：
 
 * **[编译原理 / Compilation Principle](./编译原理:Compilation%20Principle)**
 * **[操作系统 / Operating_Systems](./操作系统:Operating_Systems)**
