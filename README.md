@@ -18,7 +18,7 @@
 
 * **[编译原理 / Compilation Principle](./编译原理:Compilation%20Principle)**
 * **[操作系统 / Operating_Systems](./操作系统:Operating_Systems)**
-* **[大学物理 I / University_Physics_I](./大学物理%20Ⅰ:University_Physics_I)**
+* **[大学物理 I / University_Physics_I](./大学物理Ⅰ%3AUniversity_Physics_I%20)**
 * **[高性能计算导论 / High_Performance_Computing](./高性能计算导论:High_Performance_Computing)**
 * **[汇编与接口技术 / Assembly_Language_and_Interface_Technology](./汇编与接口技术:Assembly_Language_and_Interface_Technology)**
 * **[机器学习 / Machine_Learning](./机器学习:Machine_Learning)**
