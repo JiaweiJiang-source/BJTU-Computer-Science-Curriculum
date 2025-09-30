@@ -3,12 +3,9 @@
 
 👋 欢迎来到北京交通大学计算机科学课程资料库。
 
-本仓库收录了我本科期间（计算机科学与技术专业）的核心课程资料、笔记、实验代码及项目文件。创建此仓库的初衷，是希望能为各位同学的课程学习提供一份参考，帮助大家更顺利地完成学业。
+本仓库整理了我本科期间（计算机科学与技术专业）的核心课程资料、笔记、实验代码及项目文件。创建此仓库的初衷，是希望能为各位同学的课程学习提供一份参考，帮助大家更顺利地完成学业。但**强烈不建议直接抄袭**。(但我相信AIGC的发展, 学弟学妹们也可以easily handle it!😊) 
 
-### 💡 使用建议 (Tips)
-
-本仓库的过往作业和实验代码旨在为大家**提供思路与参考**，尤其是在你遇到困难、无从下手时。**强烈不建议直接抄袭**。(但我相信AIGC的发展, 学弟学妹们也可以easily handle it!😊) \
-⚠️: 我也有许多作业写的很随意, 很多项目代码也是💩山, 有一些文件也整理的比较乱(轻喷🙏)
+💡 我也有许多作业写的很随意, 很多项目代码也是💩山, 有一些文件也整理的比较乱(轻喷🙏)
 
 🌹 特别鸣谢: 一路陪伴和支持我的**Gemini 2.5 Pro**, Gemini 2.5 Flash, ChatGPT, ChatGPT 4o!
 
@@ -38,7 +35,7 @@
 * **[数据系统原理 / Principles_of_Database_System](./数据系统原理:Principles_of_Database_System)**
 * **[数字系统基础 / Fundamental_of_Digital_System](./数字系统基础%3AFundamental_of_Digital_System%20)**
 * **[思维交流与写作 / Creative_Thinking_and_Academic_Writing](./思维交流与写作:Creative_Thinking_and_Academic_Writing)**
-* **[微积分/ Calculus](./微积分Ⅰ%3ACalculus_Ⅰ%20)**
+* **[微积分 / Calculus](./微积分Ⅰ%3ACalculus_Ⅰ%20)**
 * **[物理实验/ Physics_Experiments](./物理实验Ⅱ%3APhysics_Experiments_II%20)**
 * **[选课 / Elective Courses](./选课)**
 * **[C语言程序设计 / C_Language_Programming](./C语言程序设计%3AC_Language_Programming%20)**
