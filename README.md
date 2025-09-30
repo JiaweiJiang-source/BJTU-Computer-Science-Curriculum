@@ -45,7 +45,7 @@
 ## 🚀 如何使用
 
 * 点击上方的目录链接，快速导航到你需要的课程文件夹。
-* 建议使用 `git clone` 将本仓库克隆到本地，以便更方便地访问和管理所有文件。
+* 可以使用 `git clone https://github.com/JiaweiJiang-source/BJTU-Computer-Science-Curriculum.git` 将本仓库克隆到本地，以便更方便地访问和管理所有文件。
 * 由于部分文件较大（已使用 Git LFS 管理），首次克隆时可能需要一些时间。
 
 ## 📝 免责声明
