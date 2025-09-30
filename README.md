@@ -41,7 +41,7 @@
 * **[微积分/ Calculus](./微积分Ⅰ%3ACalculus_Ⅰ%20)**
 * **[物理实验/ Physics_Experiments](./物理实验Ⅱ%3APhysics_Experiments_II%20)**
 * **[选课 / Elective Courses](./选课)**
-* **[C语言程序设计 / C_Language_Programming](./C语言程序设计:C_Language_Programming)**
+* **[C语言程序设计 / C_Language_Programming](./C语言程序设计%3AC_Language_Programming%20)**
 
 ---
 
