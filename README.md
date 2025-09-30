@@ -27,7 +27,7 @@
 * **[计算机网络原理 / Computer_Networks](./计算机网络原理:Computer_Networks)**
 * **[计算机组成原理 / Computer_Organization](./计算机组成原理:Computer_Organization)**
 * **[计算摄像学 / Coputational_Photograph](./计算摄像学:Coputational_Photograph)**
-* **[计算思维综合训练 / Comprehensive_Practice_of_Computational_Thinking](./计算思维综合训练:Comprehensive_Practice_of_Computational_Thinking)**
+* **[计算思维综合训练 / Comprehensive_Practice_of_Computational_Thinking](./计算思维综合训练%3AComprehensive_Practice_of_Computational_Thinking%20)**
 * **[离散数学 I / Discrete_Mathematics_I](./离散数学%20I:Discrete_Mathematics_I)**
 * **[离散数学 II / Discrete_Mathematics_II](./离散数学%20II:Discrete_Mathematics_II)**
 * **[嵌入式系统设计 / Embedded_System_Design](./嵌入式系统设计:Embedded_System_Design)**
