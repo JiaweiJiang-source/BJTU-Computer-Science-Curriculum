@@ -32,7 +32,7 @@
 * **[离散数学 II / Discrete_Mathematics_II](./离散数学IⅠ%3ADiscrete_Mathematics_II)**
 * **[嵌入式系统设计 / Embedded_System_Design](./嵌入式系统设计:Embedded_System_Design)**
 * **[软件工程 / Software Engineering](./软件工程:Software%20Engineering)**
-* **[软件开发综合训练 / Composite_Computer_Training_for_Software_Development](./软件开发综合训练:Composite_Computer_Training_for_Software_Development)**
+* **[软件开发综合训练 / Composite_Computer_Training_for_Software_Development](./软件开发综合训练%3AComposite_Computer_Training_for_Software_Development%20)**
 * **[深度学习 / Deep_Learning](./深度学习:Deep_Learning)**
 * **[数据结构 / Data Structures](./数据结构:Data%20Structures)**
 * **[数据系统原理 / Principles_of_Database_System](./数据系统原理:Principles_of_Database_System)**
