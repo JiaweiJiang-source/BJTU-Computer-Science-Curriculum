@@ -1,0 +1,1140 @@
+<!-- <!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乘客管理系统 - Dark Tech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* 暗色主题样式 */
+
+        /* 点击闪烁和轨迹粒子的基础样式 */
+        .effect-particle {
+            position: absolute; /* 需要根据鼠标坐标定位 */
+            pointer-events: none; /* 防止粒子干扰点击 */
+            border-radius: 50%;
+            z-index: 9999; /* 确保粒子在最上层 */
+            opacity: 1; /* 开始时完全可见 */
+        }
+
+        /* 点击闪烁样式*/
+        .click-sparkle {
+            width: 6px;
+            height: 6px;
+            /* 火焰橙/黄渐变 */
+            background: radial-gradient(circle, rgba(255,220,0,1) 0%, rgba(255,150,0,1) 40%, rgba(255,80,0,0) 70%);
+            /* 动画 */
+            animation: sparkle-burst 0.6s ease-out forwards;
+        }
+
+        @keyframes sparkle-burst {
+            0% {
+                transform: scale(0.5) translate(0, 0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1.5) translate(0, 0); /* 向外扩展 */
+                opacity: 0; /* 淡出 */
+            }
+        }
+
+
+        /* 鼠标轨迹粒子样式 (更微妙，可以使用强调色) */
+        .mouse-trail {
+            width: 4px;
+            height: 4px;
+            background-color: var(--tech-accent-color); /* 使用强调色 */
+            box-shadow: 0 0 5px var(--tech-accent-color); /* 添加辉光 */
+            /* 动画 */
+            animation: trail-fade 0.5s linear forwards;
+        }
+
+        @keyframes trail-fade {
+            from {
+                transform: scale(1);
+                opacity: 0.8; /* 开始时略微褪色 */
+            }
+            to {
+                transform: scale(0); /* 缩小并淡出 */
+                opacity: 0;
+            }
+        }
+
+        :root {
+             /* 定义科技感强调色 (例如，青色/电光蓝) */
+            --tech-accent-color: #00e5ff;
+            --tech-accent-hover: #00b8cc;
+            --dark-bg: #1a1a1a; /* 深的灰色 */
+            --dark-card-bg: #2a2a2a; /* 稍浅的卡片/模态框背景 */
+            --dark-border-color: #444;
+            --dark-text-color: #e0e0e0; /* 浅灰色文本 */
+            --dark-text-muted: #888;
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            /* 定义多色渐变 */
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #00e5ff, #24243e, #302b63); /* 示例：深蓝/紫/黑，带青色强调 */
+
+            background-size: 600% 600%;
+
+            /* 应用动画 */
+            animation: moveGradient 20s ease infinite; 
+
+            color: #e0e0e0; 
+            min-height: 100vh; 
+            font-family: sans-serif; 
+        }
+
+        .container {
+            margin-top: 30px;
+            background-color: rgba(42, 42, 42, 0.9);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #444; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h1, h2 {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.7); 
+        }
+
+        .table thead {
+             background-color: var(--tech-accent-color);
+             color: #000; 
+             border-bottom: 2px solid var(--tech-accent-hover);
+        }
+
+        /* 为暗色主题设置表格边框和悬停样式 */
+         .table {
+            border-color: var(--dark-border-color);
+        }
+        .table-hover > tbody > tr:hover > * {
+            /* 使用 Bootstrap 内置的暗色悬停或自定义 */ 
+             background-color: rgba(133, 229, 240, 0.1); 
+        }
+         .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: rgba(255, 255, 255, 0.03); 
+        }
+
+         /* 为暗色主题设置表单元素样式 */
+        .form-control, .form-select {
+            background-color: #333;
+            color: var(--dark-text-color);
+            border-color: var(--dark-border-color);
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #444;
+            color: var(--dark-text-color);
+            border-color: var(--tech-accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(0, 229, 255, 0.25); /* 强调色焦点环 */
+        }
+         .form-control::placeholder {
+            color: var(--dark-text-muted);
+        }
+         .form-label {
+            color: var(--dark-text-color);
+        }
+
+        /* 为暗色主题设置模态框样式 */
+        .modal-content {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+         .modal-header {
+            border-bottom-color: var(--dark-border-color);
+         }
+        .modal-footer {
+            border-top-color: var(--dark-border-color);
+        }
+        /* 为暗色主题设置模态框关闭按钮样式 */
+        .btn-close {
+             filter: invert(1) grayscale(100%) brightness(200%); 
+        }
+
+        #passengerTableBody tr {
+            transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+        }
+
+        .table-hover > tbody > tr:hover > * {
+            background-color: rgba(207, 225, 211, 0.15); 
+        }
+        .table-hover > tbody > tr:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 229, 255, 0.2); 
+        }
+
+         .btn-success {
+            background-color: #198754; border-color: #198754;
+        }
+         .btn-primary { 
+            background-color: var(--tech-accent-color);
+            border-color: var(--tech-accent-color);
+            color: #000;
+        }
+         .btn-primary:hover {
+             background-color: var(--tech-accent-hover);
+             border-color: var(--tech-accent-hover);
+             color: #000;
+        }
+         
+        .btn-danger { 
+           background-color: #dc3545; border-color: #dc3545;
+        }
+         
+        .btn-primary i.bi {
+            color: #000; 
+        }
+
+        .author-info {
+            text-align: center; 
+            font-size: 0.9em; 
+            color: var(--dark-text-muted, #aaa); 
+        }
+        #loadingIndicator {
+            color: var(--dark-text-muted);
+        }
+
+        .alert-success {
+            background-color: #0a3622; color: #75b798; border-color: #1a4d35;
+        }
+        .alert-danger {
+             background-color: #340a11; color: #d98e9a; border-color: #58151f;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mb-4 text-center">乘客管理系统</h1>
+
+    <div class="author-info mb-4"> <span class="me-3">@作者: 江家玮</span>  <span class="me-3">学号: 22281188 </span>
+        <span class="me-3">班级: 计科2204班 </span>
+        <span>学校: 北京交通大学 </span>
+    </div>
+
+    <div id="feedbackMessage" class="alert alert-dismissible fade show" role="alert" style="display: none;">
+        <span id="feedbackText"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#passengerModal" onclick="prepareAddModal()">
+            <i class="bi bi-plus-circle"></i> 添加新乘客
+        </button>
+    </div>
+
+    <h2>乘客列表</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover border table-dark">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>姓名</th>
+                    <th>身份证号</th>
+                    <th>电话</th>
+                    <th>邮箱</th>
+                    <th>常旅客号</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody id="passengerTableBody">
+                <tr id="loadingIndicatorRow"><td colspan="7"><div id="loadingIndicator">正在加载乘客列表...</div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="passengerModal" tabindex="-1" aria-labelledby="passengerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passengerModalLabel">乘客信息</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="passengerForm" class="needs-validation" novalidate>
+                        <input type="hidden" id="passengerId">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">姓名:</label>
+                            <input type="text" class="form-control" id="name" required>
+                            <div class="invalid-feedback">请输入姓名。</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="idCardNumber" class="form-label">身份证号:</label>
+                            <input type="text" class="form-control" id="idCardNumber" required minlength="18" maxlength="18" pattern="\d{17}[\dX]" title="请输入18位身份证号">
+                            <div class="invalid-feedback">请输入有效的18位身份证号。</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">联系电话:</label>
+                            <input type="text" class="form-control" id="phoneNumber" required>
+                            <div class="invalid-feedback">请输入联系电话。</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">电子邮件:</label>
+                            <input type="email" class="form-control" id="email">
+                            <div class="invalid-feedback">请输入有效的电子邮件地址。</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="frequentFlyerNumber" class="form-label">常旅客编号:</label>
+                            <input type="text" class="form-control" id="frequentFlyerNumber">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="savePassengerBtn">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+    const apiUrl = '/api/passengers'; // API 端点 URL，这个主要是向后段提供给借口
+    const passengerModal = new bootstrap.Modal(document.getElementById('passengerModal'));
+
+    // 获取 DOM 元素引用: 使用 document.getElementById('some-id') 来获取 HTML 页面上具有特定 id 的元素。
+    // 获取这些元素的引用并将它们存储在变量中，是为了方便在后续的 JavaScript 代码中操作这些元素（例如，读取输入框的值、修改元素的文本内容、隐藏/显示元素、给按钮添加事件监听器等）。
+    const forpassengerFormm = document.getElementById('');
+    const modalTitle = document.getElementById('passengerModalLabel');
+    const tableBody = document.getElementById('passengerTableBody');
+    const passengerIdField = document.getElementById('passengerId');
+    const nameField = document.getElementById('name');
+    const idCardField = document.getElementById('idCardNumber');
+    const phoneField = document.getElementById('phoneNumber');
+    const emailField = document.getElementById('email');
+    const frequentFlyerField = document.getElementById('frequentFlyerNumber');
+    const saveBtn = document.getElementById('savePassengerBtn');
+    const feedbackDiv = document.getElementById('feedbackMessage');
+    const feedbackText = document.getElementById('feedbackText');
+    const loadingIndicatorRow = document.getElementById('loadingIndicatorRow');
+
+
+    // --- 反馈消息处理 ---
+    function showFeedback(message, isSuccess = true) {
+        feedbackText.textContent = message;
+        // 根据暗色主题覆盖使用适当的 Bootstrap 警告框类
+        feedbackDiv.className = `alert alert-dismissible fade show ${isSuccess ? 'alert-success' : 'alert-danger'}`;
+        feedbackDiv.style.display = 'block';
+         // 5 秒后自动消失
+        setTimeout(() => {
+             if(feedbackDiv.style.display !== 'none') {
+                 // 使用 Bootstrap 的静态方法来尝试关闭警告框
+                 const alertInstance = bootstrap.Alert.getInstance(feedbackDiv);
+                 if(alertInstance) {
+                    alertInstance.close();
+                 } else {
+                    // 如果未找到实例则回退
+                     feedbackDiv.style.display = 'none';
+                 }
+             }
+        }, 5000);
+    }
+
+     feedbackDiv.addEventListener('close.bs.alert', function () {
+        feedbackDiv.style.display = 'none';
+    })
+
+     document.getElementById('passengerModal').addEventListener('hidden.bs.modal', event => {
+         feedbackDiv.style.display = 'none';
+     })
+
+
+    // --- 显示/隐藏加载指示器 ---
+     function showLoading(isLoading) {
+        if (isLoading) {
+            loadingIndicatorRow.style.display = 'table-row';
+        } else {
+            loadingIndicatorRow.style.display = 'none';
+        }
+    }
+
+    // --- 加载乘客列表 ---
+    async function loadPassengers() {
+        showLoading(true);
+        tableBody.innerHTML = ''; // 清空表格主体
+        tableBody.appendChild(loadingIndicatorRow); // 重新添加加载行
+
+        try {
+            const response = await fetch(apiUrl);       // apiUrl其实就是'api/passengers'
+            if (!response.ok) {
+                // 如果响应不是 JSON，则捕获错误
+                const errorData = await response.json().catch(() => ({}));
+                // 抛出更易读的错误，或从 API 获取错误消息
+                throw new Error(errorData.error || `HTTP 请求错误! 状态码: ${response.status}`);
+            }
+            const passengers = await response.json();   // 将后端返回的乘客列表JSON字符串转换为JavaScript数组对象
+
+            tableBody.innerHTML = ''; // 现在清空表格（包括加载行）
+            if (passengers.length === 0) {
+                 tableBody.innerHTML = '<tr><td colspan="7" class="text-center fst-italic">没有找到乘客信息。</td></tr>';
+            } else {    // 如果有数据，遍历每个乘客并添加到表格中
+                passengers.forEach(p => {
+                    const row = tableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${p.passenger_id}</td>
+                        <td>${p.name}</td>
+                        <td>${p.id_card_number}</td>
+                        <td>${p.phone_number}</td>
+                        <td>${p.email || '-'}</td>
+                        <td>${p.frequent_flyer_number || '-'}</td>
+                        <td class="text-center"> <button class="btn btn-sm btn-primary edit-btn" data-id="${p.passenger_id}">
+                                <i class="bi bi-pencil-square"></i> 编辑
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${p.passenger_id}">
+                                <i class="bi bi-trash3"></i> 删除
+                            </button>
+                        </td>
+                    `;
+                });
+                // 为新添加的按钮绑定事件
+                attachActionListeners();
+            }
+        } catch (error) {
+            console.error('加载乘客列表失败:', error);
+            // 使用 showFeedback 函数以保持一致性
+            showFeedback(`加载乘客列表失败: ${error.message}`, false);
+            tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">加载数据失败。请稍后重试。</td></tr>`;
+        } finally {
+             // 无论成功或失败，都隐藏加载指示器
+             showLoading(false);
+        }
+    }
+
+    // --- 重置表单和验证状态 ---
+    function resetForm() {
+        form.reset();
+        passengerIdField.value = '';
+        // 移除验证类
+        form.classList.remove('was-validated');
+    }
+
+    // --- 准备用于添加的模态框 ---
+    function prepareAddModal() {
+        resetForm();
+        modalTitle.textContent = '添加新乘客';
+    }
+
+    // --- 准备用于编辑的模态框 ---
+    async function prepareEditModal(id) {
+        resetForm();
+        modalTitle.textContent = '编辑乘客信息';
+        try {
+            const response = await fetch(`${apiUrl}/${id}`);
+             if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || `HTTP 请求错误! 状态码: ${response.status}`);
+            }
+            const passenger = await response.json();
+
+            // 获取的乘客信息填充到表单字段中
+            passengerIdField.value = passenger.passenger_id;
+            nameField.value = passenger.name;
+            idCardField.value = passenger.id_card_number;
+            phoneField.value = passenger.phone_number;
+            emailField.value = passenger.email || '';
+            frequentFlyerField.value = passenger.frequent_flyer_number || '';
+
+            passengerModal.show();
+        } catch (error) {
+            console.error('获取乘客编辑信息失败:', error);
+            showFeedback(`获取编辑信息失败: ${error.message}`, false);
+        }
+    }
+
+     // --- 保存乘客（处理添加和更新） ---
+    async function savePassenger() {
+        // 检查表单有效性，无效则显示验证提示
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+        }
+
+        const id = passengerIdField.value;
+        const isUpdate = !!id; // 如果 id 存在，则为更新操作
+
+        const passengerData = {
+            name: nameField.value,
+            id_card_number: idCardField.value,
+            phone_number: phoneField.value,
+            email: emailField.value || null, // 如果为空字符串，则发送 null
+            frequent_flyer_number: frequentFlyerField.value || null // 如果为空字符串，则发送 null
+        };
+
+        const url = isUpdate ? `${apiUrl}/${id}` : apiUrl;
+        const method = isUpdate ? 'PUT' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(passengerData)
+            });
+
+            const result = await response.json().catch(() => ({})); // 尝试解析JSON，失败返回空对象
+
+            if (!response.ok) {
+                // 从 API 的 result 中获取错误信息，否则使用 HTTP 状态
+                throw new Error(result.error || `HTTP 请求错误! 状态码: ${response.status}`);
+            }
+
+            // 现在在模态框外部显示反馈
+            showFeedback(isUpdate ? '乘客更新成功！' : '乘客添加成功！');
+            passengerModal.hide(); // 关闭模态框
+            loadPassengers(); // 重新加载列表
+        } catch (error) {
+            console.error(`保存乘客失败 (${isUpdate ? '更新' : '添加'}):`, error);
+            // 在模态框外部显示错误反馈 (或者也可以在模态框内显示)
+            showFeedback(`保存失败: ${error.message}`, false);
+            // 如果保存失败，保持显示验证状态
+            form.classList.add('was-validated');
+        }
+    }
+
+    // --- 删除乘客 ---
+    async function deletePassenger(id) {
+        // 使用 confirm 对话框进行确认
+        if (!confirm(`确定要删除乘客 ID ${id} 吗？`)) {
+            return; // 用户取消则不执行
+        }
+        try {
+            const response = await fetch(`${apiUrl}/${id}`, {
+                method: 'DELETE'
+            });
+
+             // 即使是DELETE，也可能返回包含错误信息的JSON体
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                 throw new Error(result.error || `HTTP 请求错误! 状态码: ${response.status}`);
+            }
+            showFeedback('乘客删除成功！');
+            loadPassengers(); // 重新加载列表
+        } catch (error) {
+            console.error('删除乘客失败:', error);
+            showFeedback(`删除乘客失败: ${error.message}`, false);
+        }
+    }
+
+    // --- 事件监听器 ---
+    saveBtn.addEventListener('click', savePassenger);
+
+    // --- 初始加载 ---
+    document.addEventListener('DOMContentLoaded', loadPassengers);
+
+    // --- 使用事件委托绑定编辑和删除按钮 ---
+    function attachActionListeners() {
+        tableBody.addEventListener('click', function(event) {
+            const target = event.target;
+            const editBtn = target.closest('.edit-btn'); // 查找最近的编辑按钮祖先
+            const deleteBtn = target.closest('.delete-btn'); // 查找最近的删除按钮祖先
+
+            if (editBtn) {
+                const passengerId = editBtn.dataset.id; // 从 data-id 获取 ID
+                prepareEditModal(passengerId);
+            } else if (deleteBtn) {
+                const passengerId = deleteBtn.dataset.id; // 从 data-id 获取 ID
+                deletePassenger(passengerId);
+            }
+        });
+
+        const addBtn = document.querySelector('[data-bs-target="#passengerModal"]');
+        if (addBtn) {
+            addBtn.addEventListener('click', prepareAddModal);
+        }
+    }
+
+    // 创建点击闪烁效果的函数
+    function createClickSparkle(x, y) {
+        const particleCount = 8; // 每次点击产生的闪烁数量
+        for (let i = 0; i < particleCount; i++) {
+            let sparkle = document.createElement('div');
+            sparkle.classList.add('effect-particle', 'click-sparkle');
+
+            // 在点击点周围稍微随机化位置
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.random() * 15; // 扩散半径
+            const offsetX = Math.cos(angle) * radius;
+            const offsetY = Math.sin(angle) * radius;
+
+            // 根据粒子大小进行调整 (宽度/高度的一半)
+            sparkle.style.left = `${x + offsetX - 3}px`;
+            sparkle.style.top = `${y + offsetY - 3}px`;
+
+            document.body.appendChild(sparkle);
+
+            // 动画结束后移除闪烁效果 (600ms)
+            setTimeout(() => {
+                sparkle.remove();
+            }, 600);
+        }
+    }
+
+    // 创建鼠标轨迹粒子的函数
+    function createMouseTrail(x, y) {
+        let trail = document.createElement('div');
+        trail.classList.add('effect-particle', 'mouse-trail');
+
+        // 根据粒子大小进行调整 (宽度/高度的一半)
+        trail.style.left = `${x - 2}px`;
+        trail.style.top = `${y - 2}px`;
+        document.body.appendChild(trail);
+
+        // 动画结束后移除轨迹粒子 (500ms)
+        setTimeout(() => {
+            trail.remove();
+        }, 500);
+    }
+
+    // 监听点击事件以创建闪烁
+    document.body.addEventListener('click', function(event) {
+        createClickSparkle(event.pageX, event.pageY);
+    });
+
+    // 监听鼠标移动事件以创建轨迹
+    let trailTimeout;
+    document.body.addEventListener('mousemove', function(event) {
+        // 简单的节流：确保两次创建之间至少间隔 50ms
+        if (!trailTimeout) {
+            createMouseTrail(event.pageX, event.pageY);
+            trailTimeout = setTimeout(() => {
+                trailTimeout = null; // 清除 timeout ID，允许下一次创建
+            }, 50); // 调整这个时间可以控制轨迹密度和性能影响
+        }
+    });
+</script>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乘客管理系统 - Dark Tech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --tech-accent-color: #00e5ff;
+            --tech-accent-hover: #00b8cc;
+            --dark-bg: #1a1a1a;
+            --dark-card-bg: #2a2a2a;
+            --dark-border-color: #444;
+            --dark-text-color: #e0e0e0;
+            --dark-text-muted: #888;
+        }
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        body {
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #00e5ff, #24243e, #302b63);
+            background-size: 600% 600%;
+            animation: moveGradient 20s ease infinite;
+            color: var(--dark-text-color);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+            background-color: rgba(26, 26, 26, 0.92);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--dark-border-color);
+            box-shadow: 0 8px 25px rgba(0, 229, 255, 0.15), 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        h1, h2 {
+            color: #fff;
+            text-shadow: 0 0 10px var(--tech-accent-color), 0 0 5px rgba(0,0,0,0.7);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        h2 {
+            text-align: left;
+            border-bottom: 1px solid var(--tech-accent-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .table {
+            border-color: var(--dark-border-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .table thead {
+             background-color: var(--tech-accent-color);
+             color: #000;
+             border-bottom: 3px solid var(--tech-accent-hover);
+        }
+        .table-hover > tbody > tr:hover > * {
+             background-color: rgba(0, 229, 255, 0.08);
+        }
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        .form-control, .form-select {
+            background-color: #252525;
+            color: var(--dark-text-color);
+            border: 1px solid var(--dark-border-color);
+            border-radius: 6px;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #303030;
+            color: var(--dark-text-color);
+            border-color: var(--tech-accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(0, 229, 255, 0.35);
+        }
+        .form-control::placeholder { color: var(--dark-text-muted); opacity: 0.7; }
+        .form-label { color: var(--dark-text-color); font-weight: 500; }
+        .modal-content {
+            background-color: var(--dark-card-bg);
+            border: 1px solid var(--tech-accent-color);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 229, 255, 0.2);
+        }
+        .modal-header { border-bottom-color: var(--dark-border-color); }
+        .modal-footer { border-top-color: var(--dark-border-color); }
+        .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+        #passengerTableBody tr { transition: transform 0.15s ease-out, background-color 0.15s ease-out; }
+        .table-hover > tbody > tr:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 6px 12px rgba(0, 229, 255, 0.15);
+        }
+        .btn { border-radius: 6px; transition: all 0.2s ease-in-out; padding: 0.5rem 1rem;}
+        .btn-primary {
+            background-color: var(--tech-accent-color); border-color: var(--tech-accent-color); color: #000; font-weight: bold;
+        }
+        .btn-primary:hover {
+            background-color: var(--tech-accent-hover); border-color: var(--tech-accent-hover); color: #000; transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0, 229, 255, 0.3);
+        }
+        .btn-success { background-color: #198754; border-color: #146c43; }
+        .btn-success:hover { background-color: #157347; border-color: #146c43; transform: translateY(-1px); box-shadow: 0 2px 5px rgba(25, 135, 84, 0.3); }
+        .btn-danger { background-color: #dc3545; border-color: #b02a37; }
+        .btn-danger:hover { background-color: #bb2d3b; border-color: #b02a37; transform: translateY(-1px); box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3); }
+        .btn-sm { padding: 0.3rem 0.6rem; font-size: 0.8rem;}
+        .author-info { text-align: center; font-size: 0.9em; color: var(--dark-text-muted); margin-bottom: 2rem; }
+        #loadingIndicator { color: var(--dark-text-muted); }
+        .alert-success { background-color: rgba(21, 128, 61, 0.3); color: #a3d9b8; border: 1px solid #38a169; border-left-width: 5px; }
+        .alert-danger { background-color: rgba(191, 29, 29, 0.2); color: #f8b4b4; border: 1px solid #e53e3e; border-left-width: 5px;}
+        .effect-particle { position: absolute; pointer-events: none; border-radius: 50%; z-index: 9999; opacity: 1; }
+        .click-sparkle { width: 6px; height: 6px; background: radial-gradient(circle, rgba(0,229,255,1) 0%, rgba(0,184,204,1) 40%, rgba(0,80,100,0) 70%); animation: sparkle-burst 0.6s ease-out forwards; }
+        @keyframes sparkle-burst { 0% { transform: scale(0.5); opacity: 1; } 50% { opacity: 0.8; } 100% { transform: scale(1.8); opacity: 0; } }
+        .mouse-trail { width: 4px; height: 4px; background-color: var(--tech-accent-color); box-shadow: 0 0 6px var(--tech-accent-color), 0 0 10px var(--tech-accent-color); animation: trail-fade 0.5s linear forwards; }
+        @keyframes trail-fade { from { transform: scale(1); opacity: 0.7; } to { transform: scale(0); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mb-4">乘客管理系统</h1>
+
+    <div class="author-info mb-4">
+        <span class="me-3">@作者: 江家玮</span>
+        <span class="me-3">学号: 22281188</span>
+        <span class="me-3">班级: 计科2204班</span>
+        <span>学校: 北京交通大学</span>
+    </div>
+
+    <div id="feedbackMessage" class="alert alert-dismissible fade show" role="alert" style="display: none;">
+        <span id="feedbackText"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#passengerModal" id="addNewPassengerBtn">
+            <i class="bi bi-plus-circle-fill"></i> 添加新乘客
+        </button>
+    </div>
+
+    <h2><i class="bi bi-list-ul"></i> 乘客列表</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>姓名</th>
+                    <th>身份证号</th>
+                    <th>电话</th>
+                    <th>邮箱</th>
+                    <th>常旅客号</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody id="passengerTableBody">
+                <tr id="loadingIndicatorRow"><td colspan="7" class="text-center py-4"><div id="loadingIndicator" class="spinner-border spinner-border-sm text-info" role="status"><span class="visually-hidden">正在加载...</span></div> <span class="ms-2">正在加载乘客列表...</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="passengerModal" tabindex="-1" aria-labelledby="passengerModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passengerModalLabel"><i class="bi bi-person-fill-gear"></i> 乘客信息</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="passengerForm" class="needs-validation" novalidate>
+                        <input type="hidden" id="passengerId">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">姓名:</label>
+                                <input type="text" class="form-control" id="name" required>
+                                <div class="invalid-feedback">请输入姓名。</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="idCardNumber" class="form-label">身份证号:</label>
+                                <input type="text" class="form-control" id="idCardNumber" required minlength="18" maxlength="18" pattern="\d{17}[\dX]$" title="请输入18位身份证号">
+                                <div class="invalid-feedback">请输入有效的18位身份证号。</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phoneNumber" class="form-label">联系电话:</label>
+                                <input type="text" class="form-control" id="phoneNumber" required pattern="^1[3-9]\d{9}$" title="请输入有效的11位手机号码">
+                                <div class="invalid-feedback">请输入有效的联系电话。</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">电子邮件: (可选)</label>
+                                <input type="email" class="form-control" id="email" title="例如: user@example.com">
+                                <div class="invalid-feedback">请输入有效的电子邮件地址。</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="frequentFlyerNumber" class="form-label">常旅客编号: (可选)</label>
+                            <input type="text" class="form-control" id="frequentFlyerNumber">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="savePassengerBtn"><i class="bi bi-check-circle-fill"></i> 保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+    // 使用 /api/passengers 作为基础API URL
+    const apiUrl = '/api/passengers'; 
+    const passengerModalElement = document.getElementById('passengerModal');
+    const passengerModal = new bootstrap.Modal(passengerModalElement);
+
+    // DOM 元素获取 - 确保这些元素在HTML中存在且ID正确
+    const form = document.getElementById('passengerForm'); 
+    if (!form) {
+        console.error("CRITICAL: HTML Form with ID 'passengerForm' not found!");
+        // 可以选择在此处抛出错误或禁用相关功能，以防止后续的 ReferenceError
+        // alert("页面关键元素 'passengerForm' 未找到，功能可能受限。");
+    }
+
+    const modalTitle = document.getElementById('passengerModalLabel');
+    const tableBody = document.getElementById('passengerTableBody');
+    const passengerIdField = document.getElementById('passengerId');
+    const nameField = document.getElementById('name');
+    const idCardField = document.getElementById('idCardNumber');
+    const phoneField = document.getElementById('phoneNumber');
+    const emailField = document.getElementById('email');
+    const frequentFlyerField = document.getElementById('frequentFlyerNumber');
+    const saveBtn = document.getElementById('savePassengerBtn');
+    const feedbackDiv = document.getElementById('feedbackMessage');
+    const feedbackText = document.getElementById('feedbackText');
+    const loadingIndicatorRow = document.getElementById('loadingIndicatorRow');
+    const addNewPassengerBtn = document.getElementById('addNewPassengerBtn'); // 获取添加按钮
+
+    function showFeedback(message, isSuccess = true) {
+        feedbackText.textContent = message;
+        feedbackDiv.className = `alert alert-dismissible fade show ${isSuccess ? 'alert-success' : 'alert-danger'}`;
+        feedbackDiv.style.display = 'block';
+        
+        if (window.feedbackTimeout) {
+            clearTimeout(window.feedbackTimeout);
+        }
+        window.feedbackTimeout = setTimeout(() => {
+             if(feedbackDiv.style.display !== 'none') {
+                 const alertInstance = bootstrap.Alert.getInstance(feedbackDiv);
+                 if(alertInstance) {
+                    alertInstance.close();
+                 } else {
+                     feedbackDiv.style.display = 'none'; 
+                 }
+             }
+        }, 5000);
+    }
+
+    feedbackDiv.addEventListener('close.bs.alert', function () {
+        feedbackDiv.style.display = 'none';
+        if (window.feedbackTimeout) { 
+            clearTimeout(window.feedbackTimeout);
+        }
+    });
+
+     passengerModalElement.addEventListener('hidden.bs.modal', event => {
+         if(feedbackDiv.style.display !== 'none') {
+            const alertInstance = bootstrap.Alert.getInstance(feedbackDiv);
+            if(alertInstance) { alertInstance.close(); } else { feedbackDiv.style.display = 'none';}
+         }
+         if (form) { // 检查form是否存在
+            form.classList.remove('was-validated'); 
+         }
+     });
+
+    function showLoading(isLoading) {
+        if (isLoading) {
+            loadingIndicatorRow.style.display = 'table-row';
+        } else {
+            loadingIndicatorRow.style.display = 'none';
+        }
+    }
+
+    async function loadPassengers() {
+        showLoading(true);
+        tableBody.innerHTML = ''; 
+        tableBody.appendChild(loadingIndicatorRow); 
+
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: `HTTP 请求错误! 状态码: ${response.status}` }));
+                throw new Error(errorData.error || `HTTP 请求错误! 状态码: ${response.status}`);
+            }
+            const passengers = await response.json();
+            tableBody.innerHTML = ''; 
+            if (passengers.length === 0) {
+                 tableBody.innerHTML = '<tr><td colspan="7" class="text-center fst-italic py-3">没有找到乘客信息。</td></tr>';
+            } else {
+                passengers.forEach(p => {
+                    const row = tableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${p.passenger_id}</td>
+                        <td>${p.name}</td>
+                        <td>${p.id_card_number}</td>
+                        <td>${p.phone_number}</td>
+                        <td>${p.email || '-'}</td>
+                        <td>${p.frequent_flyer_number || '-'}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-primary edit-btn me-1" data-id="${p.passenger_id}" title="编辑">
+                                <i class="bi bi-pencil-square"></i> 编辑
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${p.passenger_id}" title="删除">
+                                <i class="bi bi-trash3-fill"></i> 删除
+                            </button>
+                        </td>
+                    `;
+                });
+            }
+        } catch (error) {
+            console.error('加载乘客列表失败:', error);
+            showFeedback(`加载乘客列表失败: ${error.message}`, false);
+            tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger py-3">加载数据失败。请稍后重试。</td></tr>`;
+        } finally {
+             showLoading(false);
+        }
+    }
+
+    function resetForm() {
+        if (!form) { // 防御性编程：如果form未定义，则不执行后续操作
+            console.error("resetForm: 'form' element is not available.");
+            return;
+        }
+        form.reset(); 
+        passengerIdField.value = ''; 
+        form.classList.remove('was-validated'); 
+    }
+
+    function prepareAddModal() {
+        resetForm();
+        modalTitle.innerHTML = '<i class="bi bi-person-plus-fill"></i> 添加新乘客';
+    }
+
+    async function prepareEditModal(id) {
+        resetForm();
+        modalTitle.innerHTML = '<i class="bi bi-pencil-fill"></i> 编辑乘客信息';
+        try {
+            const response = await fetch(`${apiUrl}/${id}`); 
+             if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: `HTTP 请求错误! 状态码: ${response.status}` }));
+                throw new Error(errorData.error || `HTTP 请求错误! 状态码: ${response.status}`);
+            }
+            const passenger = await response.json();
+
+            passengerIdField.value = passenger.passenger_id;
+            nameField.value = passenger.name;
+            idCardField.value = passenger.id_card_number;
+            phoneField.value = passenger.phone_number;
+            emailField.value = passenger.email || '';
+            frequentFlyerField.value = passenger.frequent_flyer_number || '';
+
+            passengerModal.show();
+        } catch (error) {
+            console.error('获取乘客编辑信息失败:', error);
+            showFeedback(`获取编辑信息失败: ${error.message}`, false);
+        }
+    }
+
+    async function savePassenger() {
+        if (!form) { // 防御性编程
+            console.error("savePassenger: 'form' element is not available.");
+            showFeedback("保存失败: 内部表单错误。", false);
+            return;
+        }
+        if (!form.checkValidity()) { 
+            form.classList.add('was-validated'); 
+            return;
+        }
+
+        const id = passengerIdField.value;
+        const isUpdate = !!id; 
+
+        const passengerData = {
+            name: nameField.value.trim(), 
+            id_card_number: idCardField.value.trim(),
+            phone_number: phoneField.value.trim(),
+            email: emailField.value.trim() || null, 
+            frequent_flyer_number: frequentFlyerField.value.trim() || null
+        };
+
+        if (!passengerData.name || !passengerData.id_card_number || !passengerData.phone_number) {
+            showFeedback("姓名、身份证号和电话号码不能为空。", false);
+            form.classList.add('was-validated'); 
+            return;
+        }
+
+        const url = isUpdate ? `${apiUrl}/${id}` : apiUrl; 
+        const method = isUpdate ? 'PUT' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(passengerData)
+            });
+
+            const result = await response.json().catch(() => ({})); 
+
+            if (!response.ok) {
+                throw new Error(result.error || `HTTP 请求错误! 状态码: ${response.status}`);
+            }
+            
+            showFeedback(result.message || (isUpdate ? '乘客更新成功！' : '乘客添加成功！'));
+            passengerModal.hide(); 
+            loadPassengers(); 
+        } catch (error) {
+            console.error(`保存乘客失败 (${isUpdate ? '更新' : '添加'}):`, error);
+            showFeedback(`保存失败: ${error.message}`, false);
+            if (form) form.classList.add('was-validated'); 
+        }
+    }
+
+    async function deletePassenger(id) {
+        if (!confirm(`确定要删除乘客 ID ${id} 吗？`)) {
+            return; 
+        }
+        try {
+            const response = await fetch(`${apiUrl}/${id}`, { 
+                method: 'DELETE'
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                 throw new Error(result.error || `HTTP 请求错误! 状态码: ${response.status}`);
+            }
+            showFeedback(result.message || '乘客删除成功！');
+            loadPassengers(); 
+        } catch (error) {
+            console.error('删除乘客失败:', error);
+            showFeedback(`删除乘客失败: ${error.message}`, false);
+        }
+    }
+
+    // --- 事件监听器 ---
+    if (saveBtn) {
+        saveBtn.addEventListener('click', savePassenger);
+    } else {
+        console.error("Button with ID 'savePassengerBtn' not found!");
+    }
+
+    if (addNewPassengerBtn) { // 为添加按钮绑定事件
+        addNewPassengerBtn.addEventListener('click', prepareAddModal);
+    } else {
+        console.error("Button with ID 'addNewPassengerBtn' not found!");
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPassengers();
+        // 使用事件委托为动态添加的按钮绑定事件
+        if (tableBody) {
+            tableBody.addEventListener('click', function(event) {
+                const target = event.target;
+                const editBtn = target.closest('.edit-btn');
+                const deleteBtn = target.closest('.delete-btn');
+
+                if (editBtn) {
+                    const passengerId = editBtn.dataset.id;
+                    prepareEditModal(passengerId);
+                } else if (deleteBtn) {
+                    const passengerId = deleteBtn.dataset.id;
+                    deletePassenger(passengerId);
+                }
+            });
+        } else {
+            console.error("Table body with ID 'passengerTableBody' not found!");
+        }
+    });
+
+    // --- 特效代码 ---
+    function createClickSparkle(x, y) {
+        const particleCount = Math.floor(Math.random() * 5) + 8; 
+        for (let i = 0; i < particleCount; i++) {
+            let sparkle = document.createElement('div');
+            sparkle.classList.add('effect-particle', 'click-sparkle');
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.random() * 20 + 5; 
+            const offsetX = Math.cos(angle) * radius;
+            const offsetY = Math.sin(angle) * radius;
+            sparkle.style.left = `${x + offsetX - 3}px`;
+            sparkle.style.top = `${y + offsetY - 3}px`;
+            sparkle.style.animationDuration = `${(Math.random() * 0.3 + 0.4).toFixed(2)}s`; 
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 700);
+        }
+    }
+    function createMouseTrail(x, y) {
+        let trail = document.createElement('div');
+        trail.classList.add('effect-particle', 'mouse-trail');
+        trail.style.left = `${x - 2}px`;
+        trail.style.top = `${y - 2}px`;
+        trail.style.animationDuration = `${(Math.random() * 0.2 + 0.3).toFixed(2)}s`; 
+        document.body.appendChild(trail);
+        setTimeout(() => trail.remove(), 500);
+    }
+    document.body.addEventListener('click', function(event) { createClickSparkle(event.pageX, event.pageY); });
+    let trailTimeout;
+    document.body.addEventListener('mousemove', function(event) {
+        if (!trailTimeout) {
+            createMouseTrail(event.pageX, event.pageY);
+            trailTimeout = setTimeout(() => { trailTimeout = null; }, 30); 
+        }
+    });
+</script>
+
+</body>
+</html>
