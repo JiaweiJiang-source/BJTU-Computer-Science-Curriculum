@@ -1,0 +1,59 @@
+FN Clarivate Analytics Web of Science
+VR 1.0
+PT J
+AU Dong, Pingping
+   Zhang, Xiaoning
+TI ST-GTrans: Spatio-temporal graph transformer with road network semantic
+   awareness for traffic flow prediction
+SO NEURAL NETWORKS
+VL 190
+AR 107623
+DI 10.1016/j.neunet.2025.107623
+DT Article
+PD OCT 2025
+PY 2025
+AB Accurate traffic prediction has significant implications for traffic
+   optimization and management. However, few studies have thoroughly
+   considered the implicit spatial semantic information and intricate
+   temporal patterns. To address these challenges, we propose a
+   spatio-temporal graph transformer with road network semantic awareness
+   (ST-GTrans) for traffic flow prediction, an architecture that extends
+   the transformer to effectively model spatio-temporal dependencies in
+   traffic data. This model incorporates a multiscale temporal transformer
+   designed to capture historical traffic patterns across multiple time
+   scales, enabling the identification of short-and long-term temporal
+   dependencies. Additionally, ST-GTrans addresses spatial dependencies by
+   separately modeling the dynamic and static traffic components. Dynamic
+   components employ a graph transformer with an edge that captures the
+   semantic interactions between nodes through a multi-head attention
+   mechanism. This mechanism integrates edge features from a semantic
+   matrix constructed using a dynamic time-warping method based on
+   time-series traffic data. For the static components, a multi-hop graph
+   convolutional network was used to model the spatial dependencies rooted
+   in the road network. Finally, a generative decoder was incorporated to
+   mitigate error accumulation in long-term predictions. Extensive
+   experiments on diverse datasets, including the PeMS03 traffic dataset
+   (California freeway traffic data), the Shanghai metro flow dataset, and
+   the Hong Kong traffic dataset, validated the effectiveness of ST-GTrans
+   in capturing complex spatio-temporal patterns and demonstrated
+   significant improvements over state-of-the-art baseline methods across
+   multiple metrics.
+ZB 0
+ZR 0
+TC 0
+ZS 0
+ZA 0
+Z8 0
+Z9 0
+C1 Hong Kong Polytech Univ, Dept Ind & Syst Engn, Kowloon, Hong Kong,
+   Peoples R China
+C1 Tongji Univ, Sch Econ & Management, Siping Rd 1239, Shanghai 200092,
+   Peoples R China
+SN 0893-6080
+EI 1879-2782
+DA 2025-07-01
+UT WOS:001516329200006
+PM 40466347
+ER
+
+EF

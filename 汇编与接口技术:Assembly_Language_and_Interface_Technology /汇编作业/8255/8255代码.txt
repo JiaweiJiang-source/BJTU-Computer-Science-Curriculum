@@ -1,0 +1,66 @@
+; 定义数据段和代码段
+DATA_SEGMENT
+DATA_ENDS
+
+CODE_SEGMENT
+    ASSUME CS:CODE_SEG, DS:DATA_SEG
+BEGIN:
+    MOV AX, DATA_SEG
+    MOV DS, AX
+
+; 初始化8255A的控制寄存器
+    MOV DX, 283H  ; 命令寄存器地址
+    MOV AL, 98H   ; 模式设置：A口输入，B口输出，模式0
+    OUT DX, AL    ; 写入命令寄存器
+
+; 清除B口数据
+    MOV DX, 281H  ; B口地址
+    MOV AL, 00H   ; 清空B口
+    OUT DX, AL    ; 输出到B口
+
+; 等待A口有信号输入
+CHECK_INPUT:
+    MOV DX, 280H  ; A口地址
+    IN AL, DX     ; 读取A口数据
+    AND AL, 0FFH  ; 检查是否有开关打开
+    JZ CHECK_INPUT; 如果没有信号，继续等待
+
+; 识别开关位置
+    MOV CX, 8     ; 循环次数
+    MOV BL, 01H   ; 检查位
+FIND_SWITCH:
+    MOV DL, AL    ; 复制A口数据
+    AND DL, BL    ; 检查具体哪个开关被打开
+    JNZ FOUND     ; 找到开关，退出循环
+    SHL BL, 1     ; 否则检查下一个开关
+    LOOP FIND_SWITCH
+FOUND:
+    MOV AL, DL    ; 设置找到的开关对应的LED
+
+; 实现跑马灯效果
+RUNNING_LIGHTS:
+    MOV DX, 281H  ; B口地址
+    OUT DX, AL    ; 输出到B口
+    CALL DELAY_PROC; 调用延时
+    ROR AL, 1     ; 右循环移位
+    JMP RUNNING_LIGHTS  ; 继续循环
+
+; 延时程序
+DELAY_PROC PROC
+    PUSH BX
+    PUSH CX
+    MOV BX, 0FFFFH
+LOOP1:
+    MOV CX, 0FH   ; 外循环次数
+LOOP2:
+    DEC CX        ; 内循环计数
+    JNZ LOOP2
+    DEC BX
+    JNZ LOOP1
+    POP CX
+    POP BX
+    RET
+DELAY_PROC ENDP
+
+CODE_ENDS
+END BEGIN

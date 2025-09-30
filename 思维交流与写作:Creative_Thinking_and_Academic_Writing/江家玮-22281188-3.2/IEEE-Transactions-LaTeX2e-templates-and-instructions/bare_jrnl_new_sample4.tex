@@ -1,0 +1,322 @@
+% !TEX program = xelatex
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{amsmath,amsfonts,amssymb,mathtools,bm}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{array,multirow}
+\usepackage{textcomp}
+\usepackage{threeparttable}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{makecell}
+\usepackage{soul}
+\usepackage{colortbl,xcolor}
+\usepackage{colortbl}
+\usepackage[justification=centering]{caption}
+
+% 支持中文
+\usepackage{xeCJK}
+\setCJKmainfont{Songti SC} % 宋体 for Chinese text
+\setmainfont{Times New Roman} % IEEE uses Times New Roman for English
+
+\newcommand{\bluecite}[1]{{\color{blue}\cite{#1}}}
+\sethlcolor{yellow}
+
+\bibliographystyle{ieeetr}
+
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+
+\begin{document}
+
+\title{A Sample Article Using IEEEtran.cls\\ for IEEE Journals and Transactions}
+
+\author{IEEE Publication Technology,~\IEEEmembership{Staff,~IEEE,}
+\thanks{This paper was produced by the IEEE Publication Technology Group. They are in Piscataway, NJ.}
+\thanks{Manuscript received April 19, 2021; revised August 16, 2021.}}
+
+\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2021}%
+{Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
+
+\IEEEpubid{0000--0000/00\$00.00~\copyright~2021 IEEE}
+
+\maketitle
+
+\begin{abstract}
+This document describes the most common article elements and how to use the IEEEtran class with \LaTeX \ to produce files that are suitable for submission to the IEEE. IEEEtran can produce conference, journal, and technical note (correspondence) papers with a suitable choice of class options.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Article submission, IEEE, IEEEtran, journal, \LaTeX, paper, template, typesetting.
+\end{IEEEkeywords}
+
+\section{Introduction}
+This file is intended to serve as a ``sample article file'' for IEEE journal papers.
+
+{\footnotesize
+\begin{align}
+\alpha_{m,n,j}^{(l)} &= \frac{\exp\left(f_2\left(f_1\left((\bm{w}_{m,\text{dir}}^{(l)} + \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_j^{(l)})^T \bm{a}_m^{(l)}\right)\right)\right)}{\sum_{i \in \mathbb{N}(n)} \exp\left(f_2\left(f_1\left((\bm{w}_{m,\text{dir}}^{(l)} + \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_i^{(l)})^T \bm{a}_m^{(l)}\right)\right)\right)} \label{eq:alpha} \\
+\beta_{m,n}^{(l)} &= f_3\left(\alpha_{m,n,j}^{(l)}, \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_j^{(l)} \mid j \in \mathbb{N}(n)\right) \label{eq:beta} \\
+\phi(\bm{w}_n^{(C)}) &= \begin{cases}
+\sqrt{P_n} \bm{w}_n^{(C)}, & \|\bm{w}_n^{(C)}\|_2 \le 1, \\
+\frac{\sqrt{P_n} \bm{w}_n^{(C)}}{\|\bm{w}_n^{(C)}\|_2}, & \|\bm{w}_n^{(C)}\|_2 > 1.
+\end{cases} \label{eq:phi}
+\end{align}
+}
+IEEEtran.cls version 1.8b and later. The most common elements are covered in the simplified and updated instructions in ``New\_IEEEtran\_how-to.pdf''. For less common elements you can refer back to the original ``IEEEtran\_HOWTO.pdf''. It is assumed that the reader has a basic working knowledge of \LaTeX. Those who are new to \LaTeX \ are encouraged to read Tobias Oetiker's ``The Not So Short Introduction to \LaTeX ,'' available at: \url{http://tug.ctan.org/info/lshort/english/lshort.pdf} which provides an overview of working with \LaTeX.
+\begin{align}
+s_{m,i}^{(l)} &= (\bm{w}_{m,\text{dir}}^{(l)} + \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_i^{(l)})^T \bm{a}_m^{(l)}. \label{eq:s_def} \\
+\alpha_{m,n,j}^{(l)} &= \frac{\exp\left(f_2\left(f_1\left(s_{m,j}^{(l)}\right)\right)\right)}{\sum_{i \in \mathbb{N}(n)} \exp\left(f_2\left(f_1\left(s_{m,i}^{(l)}\right)\right)\right)} \label{eq:alpha_new} \\
+\beta_{m,n}^{(l)} &= f_3\left(\alpha_{m,n,j}^{(l)}, \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_j^{(l)} \mid j \in \mathbb{N}(n)\right) \label{eq:beta_repeat} \\
+\phi(\bm{w}_n^{(C)}) &= \begin{cases}
+\sqrt{P_n} \bm{w}_n^{(C)}, & \|\bm{w}_n^{(C)}\|_2 \le 1, \\
+\frac{\sqrt{P_n} \bm{w}_n^{(C)}}{\|\bm{w}_n^{(C)}\|_2}, & \|\bm{w}_n^{(C)}\|_2 > 1.
+\end{cases} \label{eq:phi_repeat}
+\end{align}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.48\textwidth]{attention.pdf}
+\caption{The processes of each CGAL for one node.}
+\label{fig:attention}
+\end{figure}
+
+\begin{table}[H]
+\begin{threeparttable}
+\centering
+\begin{tabular}{l| c|c| c |c |c}
+\hline
+\multirowcell{2}{DL Model} & \multicolumn{4}{c|}{Complexity and Efficiency Metrics} & \multirowcell{2}{BER$^\dagger$} \\
+\cline{2-5}
+& \begin{tabular}{@{}c@{}}FLOPs \\ {[giga]}\end{tabular}
+& \begin{tabular}{@{}c@{}}Params \\ {[million]}\end{tabular}
+& \begin{tabular}{@{}c@{}}IT \\ {[ms]}\end{tabular}
+& \begin{tabular}{@{}c@{}}MU \\ {[MB]}\end{tabular}
+& \\
+\hline\hline
+MaxMB & \cellcolor{pink!40}0.73 & \cellcolor{blue!20}0.45 & 20.45 & \cellcolor{blue!20}167.62 & \cellcolor{blue!20}0.1179 \\
+\hline
+DNN & 1.20 & \cellcolor{blue!20}0.60 & 1.78 & \cellcolor{blue!20}160.13 & 0.3836 \\
+\hline
+DeepRx & 1.37 & 0.66 & \cellcolor{pink!40}10.15 & 320.00 & \cellcolor{pink!40}0.1194 \\
+\hline
+SwitchNet & \cellcolor{blue!20}0.02 & 8.71 & \cellcolor{blue!20}0.12 & 321.84 & 0.1849 \\
+\hline
+Neural Receiver & 2.40 & 3.25 & 4.19 & 311.22 & 0.1219 \\
+\hline
+SCBiGNet & 0.87 & 1.04 & 4.23 & 878.59 & 0.1308 \\
+\hline
+\end{tabular}
+\begin{tablenotes}
+\item[$\dagger$] BER refers to the average BER achieved by each model across all SNR ranges.
+\item IT/MU: Inference time/Memory usage.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{algorithm}[H]
+\caption{Cuckoo Search via Levy Flights}
+\label{alg:cuckoo}
+\begin{algorithmic}[1]
+\STATE 目标函数$f(\bm{x})$, $\bm{x}=(x_1, \dots, x_d)^T$
+\STATE 产生$n$个寄主的初始种群$\bm{x}_i$
+\WHILE{$t < \text{MaxGeneration}$ or (stop criterion)}
+\STATE 随机取一个布谷鸟
+\STATE 通过Levy飞行产生一个解
+\STATE 评估解的质量或目标函数值$f_i$
+\STATE 从$n$个巢中随机选择一个 (假设为$j$)
+\IF{$f_i < f_j$}
+\STATE 将$j$用解$i$代替
+\ENDIF
+\STATE 一部分 ($p_a$) 糟糕的巢被抛弃
+\STATE 新巢/解由式(1)产生
+\STATE 保存最佳的解
+\STATE 排列解找出当前最佳
+\STATE 更新$t \leftarrow t+1$
+\ENDWHILE
+\STATE 后处理与可视化
+\end{algorithmic}
+\end{algorithm}
+
+\vfill
+\end{document}
+
+
+% % !TEX program = xelatex
+% \documentclass[lettersize,journal,utf8]{IEEEtran}
+% \usepackage{amsmath,amsfonts}
+% \usepackage{algorithmic}
+% \usepackage{xeCJK}
+% \usepackage{times}
+% % \setCJKmainfont{PingFang SC} 
+% \setCJKmainfont{Songti SC}   % 宋体
+% % \setCJKmainfont{Heiti SC}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% \usepackage{array}
+% \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+% \usepackage{multirow}
+% \usepackage{textcomp}
+% \usepackage{threeparttable}
+% \usepackage{stfloats}
+% \usepackage{url}
+% \usepackage{verbatim}
+% \usepackage{graphicx}
+% \usepackage{cite}
+% \usepackage{amsmath, amssymb}
+% \usepackage{bm}
+% \usepackage{mathtools} 
+% \usepackage{xcolor}
+% \usepackage{colortbl}
+% \usepackage{colortbl} 
+% \usepackage{xcolor}
+% \usepackage{makecell}
+% \usepackage{bm}  
+% \usepackage{soul}
+% \usepackage{xcolor}
+% \sethlcolor{yellow}
+% \usepackage[justification=centering]{caption}
+% \usepackage{xcolor}
+% \newcommand{\bluecite}[1]{{\color{blue}\cite{#1}}}
+% \usepackage{multirow}
+% \bibliographystyle{ieeetr}
+
+
+% \hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+% % updated with editorial comments 8/9/2021
+
+% \begin{document}
+
+% \title{A Sample Article Using IEEEtran.cls\\ for IEEE Journals and Transactions}
+
+% \author{IEEE Publication Technology,~\IEEEmembership{Staff,~IEEE,}
+%         % <-this % stops a space
+% \thanks{This paper was produced by the IEEE Publication Technology Group. They are in Piscataway, NJ.}% <-this % stops a space
+% \thanks{Manuscript received April 19, 2021; revised August 16, 2021.}}
+
+% % The paper headers
+% \markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2021}%
+% {Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
+
+% \IEEEpubid{0000--0000/00\$00.00~\copyright~2021 IEEE}
+% % Remember, if you use this you must call \IEEEpubidadjcol in the second
+% % column for its text to clear the IEEEpubid mark.
+
+% \maketitle
+
+% \begin{abstract}
+% This document describes the most common article elements and how to use the IEEEtran class with \LaTeX \ to produce files that are suitable for submission to the IEEE.  IEEEtran can produce conference, journal, and technical note (correspondence) papers with a suitable choice of class options. 
+% \end{abstract}
+
+% \begin{IEEEkeywords}
+% Article submission, IEEE, IEEEtran, journal, \LaTeX, paper, template, typesetting.
+% \end{IEEEkeywords}
+
+% \section{Introduction}
+% \IEEEPARstart{T}{his} file is intended to serve as a ``sample article file''
+% for IEEE journal papers.
+
+% {\footnotesize
+% \begin{align}
+%     \alpha_{m,n,j}^{(l)} &= \frac{\exp\left(f_2\left(f_1\left((\bm{w}_{m,\text{dir}}^{(l)} + \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_j^{(l)})^T \bm{a}_m^{(l)}\right)\right)\right)}{\sum_{i \in \mathbb{N}(n)} \exp\left(f_2\left(f_1\left((\bm{w}_{m,\text{dir}}^{(l)} + \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_i^{(l)})^T \bm{a}_m^{(l)}\right)\right)\right)} \label{eq:alpha} \\
+%     \beta_{m,n}^{(l)} &= f_3\left(\alpha_{m,n,j}^{(l)}, \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_j^{(l)} \mid j \in \mathbb{N}(n)\right) \label{eq:beta} \\
+%     \phi(\bm{w}_n^{(C)}) &= \begin{cases}
+%         \sqrt{P_n} \bm{w}_n^{(C)}, & \|\bm{w}_n^{(C)}\|_2 \le 1, \\
+%         \frac{\sqrt{P_n} \bm{w}_n^{(C)}}{\|\bm{w}_n^{(C)}\|_2}, & \|\bm{w}_n^{(C)}\|_2 > 1.
+%     \end{cases} \label{eq:phi}
+% \end{align}
+% }
+
+% \IEEEPARstart{T}{his} file is intended to serve as a ``sample article file''
+% for IEEE journal papers produced under \LaTeX\ using
+% IEEEtran.cls version 1.8b and later. 
+% % 由于第一个公式太长了，因此我把它进行了分离
+% \begin{align}
+%   s_{m,i}^{(l)} &= (\bm{w}_{m,\text{dir}}^{(l)} + \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_i^{(l)})^T \bm{a}_m^{(l)}. \label{eq:s_def} \\ % 在等号前加&
+%     \alpha_{m,n,j}^{(l)} &= \frac{\exp\left(f_2\left(f_1\left(s_{m,j}^{(l)}\right)\right)\right)}{\sum_{i \in \mathbb{N}(n)} \exp\left(f_2\left(f_1\left(s_{m,i}^{(l)}\right)\right)\right)} \label{eq:alpha_new} \\
+%     \beta_{m,n}^{(l)} &= f_3\left(\alpha_{m,n,j}^{(l)}, \bm{w}_{m,\text{ner}}^{(l)}\bm{h}_j^{(l)} \mid j \in \mathbb{N}(n)\right) \label{eq:beta} \\
+%     \phi(\bm{w}_n^{(C)}) &= \begin{cases}
+%         \sqrt{P_n} \bm{w}_n^{(C)}, & \|\bm{w}_n^{(C)}\|_2 \le 1, \\
+%         \frac{\sqrt{P_n} \bm{w}_n^{(C)}}{\|\bm{w}_n^{(C)}\|_2}, & \|\bm{w}_n^{(C)}\|_2 > 1.
+%     \end{cases} \label{eq:phi}
+% \end{align}
+
+% \begin{figure}[!t]
+%     \centering
+%     \includegraphics[width=0.48\textwidth]{attention.pdf}
+%     \caption{The processes of each CGAL for one node.}
+%     \label{fig:attention}
+% \end{figure}
+
+% \begin{table}[!t]
+%     \begin{threeparttable}
+%         \centering
+%         \begin{tabular}{l| c|c| c |c |c}
+%             \hline
+%             \multirowcell{2}{DL Model} & \multicolumn{4}{c|}{Complexity and Efficiency Metrics} & \multirowcell{2}{BER$^\dagger$} \\ 
+%             \cline{2-5}
+%             & \begin{tabular}{@{}c@{}}FLOPs \\ {[giga]}\end{tabular} 
+%             & \begin{tabular}{@{}c@{}}Params \\ {[million]}\end{tabular} 
+%             & \begin{tabular}{@{}c@{}}IT \\ {[ms]}\end{tabular} 
+%             & \begin{tabular}{@{}c@{}}MU \\ {[MB]}\end{tabular}
+%             & \\
+%             \hline\hline
+%             MaxMB           & \cellcolor{pink!40}0.73 & \cellcolor{blue!20}0.45 & 20.45 & \cellcolor{blue!20}167.62 & \cellcolor{blue!20}0.1179 \\
+%             \hline
+%             DNN             & 1.20 & \cellcolor{blue!20}0.60 & 1.78  & \cellcolor{blue!20}160.13 & 0.3836 \\
+%             \hline
+%             DeepRx          & 1.37 & 0.66 & \cellcolor{pink!40}10.15 & 320.00 & \cellcolor{pink!40}0.1194 \\
+%             \hline
+%             SwitchNet       & \cellcolor{blue!20}0.02 & 8.71 & \cellcolor{blue!20}0.12  & 321.84 & 0.1849 \\
+%             \hline
+%             Neural Receiver & 2.40 & 3.25 & 4.19  & 311.22 & 0.1219 \\
+%             \hline
+%             SCBiGNet        & 0.87 & 1.04 & 4.23  & 878.59 & 0.1308 \\
+%             \hline
+%         \end{tabular}
+%         \begin{tablenotes}
+%             \item[$\dagger$] BER refers to the average BER achieved by each model across all SNR ranges.
+%             \item IT/MU: Inference time/Memory usage.
+%         \end{tablenotes}
+%     \end{threeparttable}
+% \end{table}
+
+% \begin{algorithm}[H]
+%     \caption{Cuckoo Search via Levy Flights}
+%     \label{alg:cuckoo}
+%     \begin{algorithmic}[1] % [1] 表示显示行号
+%         \STATE 目标函数$f(\bm{x})$, $\bm{x}=(x_1, \dots, x_d)^T$
+%         \STATE 产生$n$个寄主的初始种群$\bm{x}_i$
+%         \WHILE{$t < \text{MaxGeneration}$ or (stop criterion)}
+%             \STATE 随机取一个布谷鸟
+%             \STATE 通过Levy飞行产生一个解
+%             \STATE 评估解的质量或目标函数值$f_i$
+%             \STATE 从$n$个巢中随机选择一个 (假设为$j$)
+%             \IF{$f_i < f_j$}
+%                 \STATE 将$j$用解$i$代替
+%             \ENDIF
+%             \STATE 一部分 ($p_a$) 糟糕的巢被抛弃
+%             \STATE 新巢/解由式(1)产生
+%             \STATE 保存最佳的解 (或者, 高质量解的巢)
+%             \STATE 排列解找出当前最佳
+%             \STATE 更新$t \leftarrow t+1$
+%         \ENDWHILE
+%         \STATE 后处理与可视化
+%     \end{algorithmic}
+% \end{algorithm}
+
+
+
+% \vfill
+
+% \end{document}
+
+

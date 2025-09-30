@@ -1,0 +1,1033 @@
+stack1 segment
+    dw 200 dup(?)
+stack1 ends
+
+data segment
+
+    goods_num1 db 5;记录自动售货机内商品1的数量，初始值为50，每次补货自动补满
+    goods_num2 db 5;商品2的数量
+    goods_num3 db 5;商品3的数量
+    goods_num4 db 5;商品4的数量
+
+    number db ?;记录当前用户所要购买的商品
+
+    ;中断部分相关参数
+    int_off dw ?
+    int_seg dw ?
+
+    ;led显示相关参数
+ PORTA EQU 288H;8255A端口地址
+
+
+;文字GBK编码 提示用户键入1开始购买
+    HZ_GUID DW 0C7EBH,0CAE4H,0C8EBH,0A2B1H,0C9EAH,0C7EBH,0B9BAH,0C2F2H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H;"请输入1申请购买"
+    HZ_GUID_ADR DB ?
+;LCD显示商品信息
+    HZ_GOODS DW 0C9CCH,0C6B7H,0A2B1H,0A3A0H ;"商品1 2.商品2 商品3 商品4"
+                         DW 0C9CCH,0C6B7H,0A2B2H,0A3A0H 
+                         DW 0C9CCH,0C6B7H,0A2B3H,0A3A0H 
+                         DW 0C9CCH,0C6B7H,0A2B4H,0A3A0H 
+    HZ_GOODS_ADR DB ?
+;LCD提示该商品售罄
+    HZ_OUT DW 0A3A0H,0B8C3H,0C9CCH,0C6B7H,0D2D1H,0CADBH,0BFD5H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H;"该商品已售空”
+    HZ_OUT_ADR DB ?
+; 拿取货物成功提醒
+    HZ_TAKE_success DW 0A3A0H,0C4C3H,0C8A1H,0C9CCH,0C6B7H,0B3C9H,0B9A6H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H;"拿取商品成功”
+    HZ_TAKE_success_ADR DB ?
+; 拿取货物提醒
+    HZ_TAKE DW 0A3A0H,0C7EBH,0C4C3H,0C8A1H,0C9CCH,0C6B7H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H;"请拿取商品”
+    HZ_TAKE_ADR DB ?
+; 补货中...
+    HZ_REC DW 0A3A0H,0B2B9H,0BBF5H,0D6D0H,0A1D1H,0A1D0H,0A1D1H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H;”补货中⊙⌒⊙”
+    HZ_REC_ADR DB ?
+;文字GBK编码 清屏操作
+    HZ_CLEAR DW 0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H,0A3A0H;
+    HZ_CLEAR_ADR DB ?
+
+data ends
+
+code segment
+    assume cs:code,ds:data,es:data,ss:stack1
+start:
+    mov ax,data
+    mov ds,ax
+    mov es,ax
+    mov ax,stack1
+    mov ss,ax
+
+;初始化8255为方式0
+    mov dx,PORTA
+    mov al,10000000b;用A口连接LED灯实现提示语输出功能
+    out dx,al
+
+;判断键盘是否有购物请求
+wait1:
+    call SHOW_LCD_CLEAR ; 清空LCD屏幕    
+
+    call SHOW_GUIDANCE;  LCD显示提示用户键入1发送购物请求
+    ;mov ah,0bh
+    ;int 21h
+    ;cmp al,0h
+    ;je wait1;   无键按下，继续等待
+
+    ;判断按下的键是不是1
+    mov ah,08h
+    int 21h
+    cmp al,31h;   判断键入的是不是1
+    je choose_goods;   是"1"，则进入限时货物选择部分
+
+    ;判断是否按下应急按钮（Esc）
+    ;mov ah,08h
+    ;int 21h
+    cmp al,1bh
+    je urgent;   是"Esc"，则进入紧急处理部分
+    jmp wait1;   无视非法输入，继续等待
+
+;紧急处理部分开始
+urgent:
+    call SHOW_LCD_CLEAR ;  有请求，清空LCD屏幕 
+    call SHOW_RECOVER;
+    
+    mov cx,05fh
+dll_RECOVER:call DELAY1
+               loop dll_RECOVER
+       
+
+    ;进行中断处理
+    call INT1;
+    mov al,5
+   
+    mov goods_num1,al;
+    mov goods_num2,al;
+    mov goods_num3,al;
+    mov goods_num4,al;
+
+    jmp wait1;  继续等待用户指令
+;紧急处理部分结束
+
+
+;限时货物选择部分开始
+choose_goods:
+
+    call SHOW_LCD_CLEAR ;  有请求，清空LCD屏幕    
+
+    ;LCD显示货物编号及库存，供用户进行选择
+    call SHOW_GOODS
+ 
+;倒计时5分钟开始，采用级联
+;分别采用2方式（分频器）和0方式（结束即中断）
+;out0输出作输入
+    mov dx,283h
+    mov al,00000000b
+    out dx,al
+    mov al,00110100b
+    out dx,al
+    mov dx,280h
+    mov ax,10000
+    out dx,al
+    mov al,ah
+    out dx,al
+
+    mov dx,283h
+    mov al,10110000b
+    out dx,al
+    ;mov ax,30000
+    mov ax,1000
+    mov dx,282h
+    out dx,al
+    mov al,ah
+    out dx,al
+    ;计时部分代码结束
+
+;保护现场
+ 
+choosing:
+    ;判断当前out是不是高电平（高电平代表计时结束）
+    ;如果计时结束， jmp wait，从头再来
+    ;一次性读取一个通道2的值，比较寄存器2为0
+mov dx,283h
+mov al,10000000b
+out dx,al
+mov dx,282h
+in al,dx
+mov bl,al
+in al,dx
+mov bh,al
+
+cmp bx,0
+ 
+    
+    je wait1;计时结束，从头开始
+    ;恢复现场
+  ; jmp choosing
+  
+  mov ah,0bh
+  int 21h
+  cmp al,0h
+  je choosing
+ 
+jmp is_1
+    
+do_again:jmp wait1
+
+ ;判断按下的键是不是1
+is_1:
+    mov ah,08h
+    int 21h
+    cmp al,31h;   判断键入的是不是1
+    jne is_2;   不是"1"，则继续判断是不是2
+    mov al,1
+    mov number,al
+    mov al,goods_num1
+    cmp al,0
+    je show_nothing;如果当前没货了，则从头再来
+    jmp take_away
+
+    ;判断按下的键是不是2
+is_2:
+    cmp al,32h;   判断键入的是不是2
+    jne is_3;   不是"2"，则继续判断是不是3
+    mov al,2
+    mov number,al
+    mov al,goods_num2
+    cmp al,0
+    je show_nothing;如果当前没货了，则从头再来
+    jmp take_away
+
+    ;判断按下的键是不是3
+is_3:
+    cmp al,33h;   判断键入的是不是3
+    jne is_4;   不是"3"，则继续判断是不是4
+    mov al,3
+    mov number,al
+    mov al,goods_num3
+    cmp al,0
+    je show_nothing;如果当前没货了，则从头再来
+    jmp take_away
+
+    ;判断按下的键是不是4
+is_4:
+    cmp al,34h;   判断键入的是不是4
+    jne choosing;   无效输入，继续等待
+    mov al,4
+    mov number,al
+    mov al,goods_num4
+    cmp al,0
+    je show_nothing;如果当前没货了，则从头再来
+    jmp take_away
+    
+show_nothing:
+    call SHOW_LCD_CLEAR ;  有请求，清空LCD屏幕    
+    call SHOW_out_of_stock
+                 mov cx,05fh
+dll_out_of_stock:call DELAY1
+                 loop dll_out_of_stock
+    
+    jmp do_again
+;限时货物选择部分结束
+
+
+;货物出货提醒部分开始
+take_away:
+
+    ;8254停止计数;至少要来一个脉冲清零，初值不能为零
+    mov dx,283h
+    mov al,10010100b
+    out dx,al
+    mov dx,282h
+    mov al,1
+    out dx,al
+    mov dx,283h
+    mov al,00010000b
+    out dx,al
+    mov dx,280h
+    mov al,1     
+    out dx,al
+    
+    call SOUND_LIGHT;8254声光提示系统
+    
+    call SHOW_LCD_CLEAR ; 清空LCD屏幕
+    call SHOW_TAKE_GOODS ;
+    
+    mov cx,05fh
+dll_TAKE_GOODS:call DELAY1
+               loop dll_TAKE_GOODS
+
+   
+;键盘enter代表货物被取走
+take_away1:
+    mov ah,08h
+    int 21h
+    cmp al,0dh
+    jne take_away1;  非法输入，继续等待
+        
+    mov al,number
+    cmp al,1
+    je dec_1
+    cmp al,2
+    je dec_2
+    cmp al,3
+    je dec_3
+    jmp dec_4
+dec_1:
+    mov al,goods_num1
+    dec al
+    mov goods_num1,al
+    jmp finished
+dec_2:
+    mov al,goods_num2
+    dec al
+    mov goods_num2,al
+    jmp finished
+dec_3:
+    mov al,goods_num3
+    dec al
+    mov goods_num3,al
+    jmp finished
+dec_4:
+    mov al,goods_num4
+    dec al
+
+    mov goods_num4,al
+
+;货物被取走，停止报警和闪光
+finished:    
+call STOP_SOUND_LIGHT;
+    
+    call SHOW_LCD_CLEAR ; 清空LCD屏幕
+    call SHOW_TAKE_GOODS_success ;
+    
+    mov cx,05fh
+dll:call DELAY1
+    loop dll
+    
+
+
+
+;检测库存是否紧缺（当有货物库存为0时定义为"紧缺"）
+    mov al,goods_num1
+    cmp al,0
+    je supplement
+    mov al,goods_num2
+    cmp al,0
+    je supplement
+    mov al,goods_num3
+    cmp al,0
+    je supplement
+    mov al,goods_num4
+    cmp al,0
+    je supplement
+    
+;完成购买，返回等待状态
+    jmp do_again   
+
+;如果紧缺，则低频报警；但是并不会影响正常其他产品的购买
+supplement:
+    call LOW_ALARM
+    jmp do_again
+
+
+;LCD提示用户键入1开始购买
+SHOW_GUIDANCE proc near
+          PUSH AX
+          PUSH DS
+          PUSH DX
+          PUSH BX
+          PUSH CX
+
+          CALL LCD_CLEAR
+          LEA BX,  HZ_GUID
+          MOV CH,2                        ;显示第2行信息 
+          CALL  LCD_GUIDANCE_DISP
+          LEA BX, HZ_GUID
+          MOV CH,3                  ;    显示第3行信息
+          CALL LCD_GUIDANCE_DISP
+
+          POP CX
+          POP BX
+          POP DX
+          POP DS
+          POP AX
+          RET
+SHOW_GUIDANCE endp
+
+LCD_GUIDANCE_DISP PROC NEAR
+            LEA BX, HZ_GUID
+            CMP CH, 2
+           JZ  DISP_GUIDANCE_SEC
+            MOV BYTE PTR HZ_GUID_ADR, 88H        ;第三行起始端口地址
+            ADD BX,16                        ;指向第二行信息
+            JMP  next_GUIDANCE
+DISP_GUIDANCE_SEC:   MOV BYTE PTR HZ_GUID_ADR,90H
+next_GUIDANCE:           mov cl,8
+CONTINUE_GUIDANCE:   
+            push cx
+            MOV AL,HZ_GUID_ADR
+            MOV DX, PORTA
+            OUT DX, AL
+            CALL CMD_SETUP          ;设定DDRAM地址命令
+            MOV AX,[BX]
+            PUSH AX
+            MOV AL,AH               ;先送汉字编码高位
+            MOV DX,PORTA
+            OUT DX,AL
+            CALL DATA_SETUP         ;输出汉字编码高字节
+            CALL DELAY              ;延迟
+            POP AX
+            MOV DX,PORTA
+            OUT DX, AL
+            CALL DATA_SETUP         ;输出汉字编码低字节
+            CALL DELAY
+            INC BX
+            INC BX                  ;修改显示内码缓冲区指针
+            INC BYTE PTR HZ_GUID_ADR     ;修改LCD显示端口地址
+            POP CX
+            DEC CL
+            JNZ  CONTINUE_GUIDANCE
+            RET
+LCD_GUIDANCE_DISP   ENDP
+
+;清空LCD屏幕
+SHOW_LCD_CLEAR proc near
+          PUSH AX
+          PUSH DS
+          PUSH DX
+          PUSH BX
+          PUSH CX
+          
+          CALL LCD_CLEAR
+          LEA BX,  HZ_CLEAR
+          MOV CH,2                        ;显示第2行信息 
+          CALL  LCD_CLEAR_DISP
+          LEA BX, HZ_CLEAR
+          MOV CH,3                  ;    显示第3行信息
+          CALL LCD_CLEAR_DISP
+          
+          POP CX
+          POP BX
+          POP DX
+          POP DS
+          POP AX
+          RET
+SHOW_LCD_CLEAR    ENDP
+
+LCD_CLEAR_DISP PROC NEAR
+            LEA BX, HZ_CLEAR
+            CMP CH, 2
+           JZ  DISP_CLEAR_SEC
+            MOV BYTE PTR HZ_CLEAR_ADR, 88H        ;第三行起始端口地址
+            ADD BX,16                        ;指向第二行信息
+            JMP  next_CLEAR
+DISP_CLEAR_SEC:   MOV BYTE PTR HZ_CLEAR_ADR,90H
+next_CLEAR:           mov cl,8
+CONTINUE_CLEAR:   
+            push cx
+            MOV AL,HZ_CLEAR_ADR
+            MOV DX, PORTA
+            OUT DX, AL
+            CALL CMD_SETUP          ;设定DDRAM地址命令
+            MOV AX,[BX]
+            PUSH AX
+            MOV AL,AH               ;先送汉字编码高位
+            MOV DX,PORTA
+            OUT DX,AL
+            CALL DATA_SETUP         ;输出汉字编码高字节
+            CALL DELAY              ;延迟
+            POP AX
+            MOV DX,PORTA
+            OUT DX, AL
+            CALL DATA_SETUP         ;输出汉字编码低字节
+            CALL DELAY
+            INC BX
+            INC BX                  ;修改显示内码缓冲区指针
+            INC BYTE PTR HZ_CLEAR_ADR     ;修改LCD显示端口地址
+            POP CX
+            DEC CL
+            JNZ  CONTINUE_CLEAR
+            RET
+LCD_CLEAR_DISP   ENDP
+
+;清空LCD屏幕主体
+LCD_CLEAR proc near
+          MOV AX,DATA
+          MOV DS,AX               
+          MOV DX,PORTA
+          ADD DX,3
+          MOV AL,80H
+          OUT DX,AL                       ;8255初始化
+          mov al,0ffh
+          mov dx,PORTA
+          out dx, al
+          MOV AL,0CH
+          MOV DX, PORTA
+          OUT DX,AL               ;设置CLEAR命令
+          CALL CMD_SETUP          ;启动LCD执行命令
+          RET
+LCD_CLEAR endp
+
+CMD_SETUP PROC NEAR
+           MOV DX,PORTA                ;指向8255端口控制端口
+           ADD DX,2
+           NOP
+           MOV AL,00000000B                ;PC1置0,pc0置0 （LCD I端=0，W端＝0）
+           OUT DX, AL
+           call delay
+           NOP
+           MOV AL,00000100B                ;PC2置1 （LCD E端＝1）
+           OUT DX, AL
+           NOP
+           call delay
+           MOV AL, 00000000B               ;PC2置0,（LCD E端置0）
+           OUT DX, AL
+           call delay
+
+           RET
+CMD_SETUP       ENDP
+
+DATA_SETUP      PROC
+            MOV DX,PORTA                ;指向8255控制端口
+            ADD DX,2
+            MOV AL,00000001B                ;PC1置0，PC0=1 （LCD I端=1）
+            OUT DX, AL
+            NOP
+            call delay
+            MOV AL,00000101B                ;PC2置1 （LCD E端＝1）
+            OUT DX, AL
+            NOP
+            call delay
+            MOV AL, 00000001B               ;PC2置0,（LCD E端＝0）
+            OUT DX, AL
+            NOP
+            call delay
+            RET
+DATA_SETUP      ENDP
+
+DELAY  PROC NEAR
+           push cx
+           push dx
+           MOV CX, 0fffh 
+ x1:      loop   x1
+           pop dx
+           pop cx
+           RET
+DELAY  ENDP
+
+DELAY1  PROC NEAR
+           push cx
+           push bx
+           MOV CX, 0ffffh 
+ loop1:    MOV BX,0ffffh
+ loop2:    dec bx
+           cmp bx,0
+           je loop2
+           loop loop1
+           pop bx
+           pop cx
+           RET
+DELAY1  ENDP
+
+;LCD显示商品信息;LCD显示货物编号及库存，供用户进行选择，您有五分钟的选择时间
+SHOW_GOODS proc near
+          PUSH AX
+          PUSH DS
+          PUSH DX
+          PUSH BX
+          PUSH CX
+
+          CALL LCD_CLEAR
+          LEA BX,  HZ_GOODS
+          MOV CH,2                        ;显示第2行信息 
+          CALL LCD_GOODS_DISP
+          LEA BX, HZ_GOODS
+          MOV CH,3                  ;    显示第3行信息
+          CALL LCD_GOODS_DISP
+
+          POP CX
+          POP BX
+          POP DX
+          POP DS
+          POP AX
+          RET
+SHOW_GOODS endp
+
+LCD_GOODS_DISP PROC NEAR
+            LEA BX, HZ_GOODS
+            CMP CH, 2
+            JZ  DISP_GOODS_SEC
+            MOV BYTE PTR HZ_GOODS_ADR, 88H        ;第三行起始端口地址
+            ADD BX,16                        ;指向第二行信息
+            JMP  next_GOODS
+DISP_GOODS_SEC:   MOV BYTE PTR HZ_GOODS_ADR,90H
+next_GOODS:           mov cl,8
+CONTINUE_GOODS:   
+            push cx
+            MOV AL,HZ_GOODS_ADR
+            MOV DX, PORTA
+            OUT DX, AL
+            CALL CMD_SETUP          ;设定DDRAM地址命令
+            MOV AX,[BX]
+            PUSH AX
+            MOV AL,AH               ;先送汉字编码高位
+            MOV DX,PORTA
+            OUT DX,AL
+            CALL DATA_SETUP         ;输出汉字编码高字节
+            CALL DELAY              ;延迟
+            POP AX
+            MOV DX,PORTA
+            OUT DX, AL
+            CALL DATA_SETUP         ;输出汉字编码低字节
+            CALL DELAY
+            INC BX
+            INC BX                  ;修改显示内码缓冲区指针
+            INC BYTE PTR HZ_GOODS_ADR     ;修改LCD显示端口地址
+            POP CX
+            DEC CL
+            JNZ  CONTINUE_GOODS
+            RET
+LCD_GOODS_DISP   ENDP
+
+;LCD提示该商品售罄
+SHOW_out_of_stock proc near
+          PUSH AX
+          PUSH DS
+          PUSH DX
+          PUSH BX
+          PUSH CX
+
+          CALL LCD_CLEAR
+          LEA BX,  HZ_OUT
+          MOV CH,2                        ;显示第2行信息 
+          CALL LCD_out_of_stock_DISP
+          LEA BX, HZ_OUT
+          MOV CH,3                  ;    显示第3行信息
+          CALL LCD_out_of_stock_DISP
+          call DELAY1
+
+          POP CX
+          POP BX
+          POP DX
+          POP DS
+          POP AX
+          RET
+SHOW_out_of_stock endp
+
+LCD_out_of_stock_DISP PROC NEAR
+            LEA BX, HZ_OUT
+            CMP CH, 2
+            JZ  DISP_out_of_stock_SEC
+            MOV BYTE PTR HZ_OUT_ADR, 88H        ;第三行起始端口地址址
+            ADD BX,16                        ;指向第二行信息
+            JMP  next_out_of_stock
+DISP_out_of_stock_SEC:   MOV BYTE PTR HZ_OUT_ADR,90H
+next_out_of_stock:           mov cl,8
+CONTINUE_out_of_stock:   
+            push cx
+            MOV AL,HZ_OUT_ADR
+            MOV DX, PORTA
+            OUT DX, AL
+            CALL CMD_SETUP          ;设定DDRAM地址命令
+            MOV AX,[BX]
+            PUSH AX
+            MOV AL,AH               ;先送汉字编码高位
+            MOV DX,PORTA
+            OUT DX,AL
+            CALL DATA_SETUP         ;输出汉字编码高字节
+            CALL DELAY              ;延迟
+            POP AX
+            MOV DX,PORTA
+            OUT DX, AL
+            CALL DATA_SETUP         ;输出汉字编码低字节
+            CALL DELAY
+            INC BX
+            INC BX                  ;修改显示内码缓冲区指针
+            INC BYTE PTR HZ_OUT_ADR     ;修改LCD显示端口地址
+            POP CX
+            DEC CL
+            JNZ  CONTINUE_out_of_stock
+            RET
+LCD_out_of_stock_DISP   ENDP
+
+;提示拿走商品
+SHOW_TAKE_GOODS proc near
+          PUSH AX
+          PUSH DS
+          PUSH DX
+          PUSH BX
+          PUSH CX
+
+          CALL LCD_CLEAR
+          LEA BX,  HZ_TAKE
+          MOV CH,2                        ;显示第2行信息 
+          CALL  LCD_TAKE_DISP
+          LEA BX, HZ_TAKE
+          MOV CH,3                  ;    显示第3行信息
+          CALL  LCD_TAKE_DISP
+          call DELAY1
+          
+          POP CX
+          POP BX
+          POP DX
+          POP DS
+          POP AX
+          RET
+SHOW_TAKE_GOODS endp
+
+LCD_TAKE_DISP PROC NEAR
+            LEA BX, HZ_TAKE
+            CMP CH, 2
+            JZ  DISP_TAKE_SEC
+            MOV BYTE PTR HZ_TAKE_ADR, 88H        ;第三行起始端口地址
+            ADD BX,16                        ;指向第二行信息
+            JMP  next_TAKE
+DISP_TAKE_SEC:   MOV BYTE PTR HZ_TAKE_ADR,90H
+next_TAKE:           mov cl,8
+CONTINUE_TAKE:   
+            push cx
+            MOV AL,HZ_TAKE_ADR
+            MOV DX, PORTA
+            OUT DX, AL
+            CALL CMD_SETUP          ;设定DDRAM地址命令
+            MOV AX,[BX]
+            PUSH AX
+            MOV AL,AH               ;先送汉字编码高位
+            MOV DX,PORTA
+            OUT DX,AL
+            CALL DATA_SETUP         ;输出汉字编码高字节
+            CALL DELAY              ;延迟
+            POP AX
+            MOV DX,PORTA
+            OUT DX, AL
+            CALL DATA_SETUP         ;输出汉字编码低字节
+            CALL DELAY
+            INC BX
+            INC BX                  ;修改显示内码缓冲区指针
+            INC BYTE PTR HZ_TAKE_ADR     ;修改LCD显示端口地址
+            POP CX
+            DEC CL
+            JNZ  CONTINUE_TAKE
+            RET
+LCD_TAKE_DISP   ENDP
+
+;提示拿走商品
+SHOW_TAKE_GOODS_success proc near
+          PUSH AX
+          PUSH DS
+          PUSH DX
+          PUSH BX
+          PUSH CX
+
+          CALL LCD_CLEAR
+          LEA BX,  HZ_TAKE_success
+          MOV CH,2                        ;显示第2行信息 
+          CALL  LCD_TAKE_success_DISP
+          LEA BX, HZ_TAKE
+          MOV CH,3                  ;    显示第3行信息
+          CALL  LCD_TAKE_success_DISP
+          call DELAY1
+          
+          POP CX
+          POP BX
+          POP DX
+          POP DS
+          POP AX
+          RET
+SHOW_TAKE_GOODS_success endp
+
+LCD_TAKE_success_DISP PROC NEAR
+            LEA BX, HZ_TAKE_success
+            CMP CH, 2
+            JZ  DISP_TAKE_success_SEC
+            MOV BYTE PTR HZ_TAKE_success_ADR, 88H        ;第三行起始端口地址
+            ADD BX,16                        ;指向第二行信息
+            JMP  next_TAKE_success
+DISP_TAKE_success_SEC:   MOV BYTE PTR HZ_TAKE_success_ADR,90H
+next_TAKE_success:           mov cl,8
+CONTINUE_TAKE_success:   
+            push cx
+            MOV AL,HZ_TAKE_success_ADR
+            MOV DX, PORTA
+            OUT DX, AL
+            CALL CMD_SETUP          ;设定DDRAM地址命令
+            MOV AX,[BX]
+            PUSH AX
+            MOV AL,AH               ;先送汉字编码高位
+            MOV DX,PORTA
+            OUT DX,AL
+            CALL DATA_SETUP         ;输出汉字编码高字节
+            CALL DELAY              ;延迟
+            POP AX
+            MOV DX,PORTA
+            OUT DX, AL
+            CALL DATA_SETUP         ;输出汉字编码低字节
+            CALL DELAY
+            INC BX
+            INC BX                  ;修改显示内码缓冲区指针
+            INC BYTE PTR HZ_TAKE_success_ADR     ;修改LCD显示端口地址
+            POP CX
+            DEC CL
+            JNZ  CONTINUE_TAKE_success
+            RET
+LCD_TAKE_success_DISP   ENDP
+
+;LCD补货提示
+SHOW_RECOVER proc near
+          PUSH AX
+          PUSH DS
+          PUSH DX
+          PUSH BX
+          PUSH CX
+
+          CALL LCD_CLEAR
+          LEA BX,  HZ_REC
+          MOV CH,2                        ;显示第2行信息 
+          CALL  LCD_RECOVER_DISP
+          LEA BX, HZ_GUID
+          MOV CH,3                  ;    显示第3行信息
+          CALL LCD_RECOVER_DISP
+
+          POP CX
+          POP BX
+          POP DX
+          POP DS
+          POP AX
+          RET
+SHOW_RECOVER endp
+
+LCD_RECOVER_DISP PROC NEAR
+            LEA BX, HZ_REC
+            CMP CH, 2
+           JZ  DISP_RECOVER_SEC
+            MOV BYTE PTR HZ_REC_ADR, 88H        ;第三行起始端口地址
+            ADD BX,16                        ;指向第二行信息
+            JMP  next_RECOVER
+DISP_RECOVER_SEC:   MOV BYTE PTR HZ_REC_ADR,90H
+next_RECOVER:           mov cl,8
+CONTINUE_RECOVER:   
+            push cx
+            MOV AL,HZ_REC_ADR
+            MOV DX, PORTA
+            OUT DX, AL
+            CALL CMD_SETUP          ;设定DDRAM地址命令
+            MOV AX,[BX]
+            PUSH AX
+            MOV AL,AH               ;先送汉字编码高位
+            MOV DX,PORTA
+            OUT DX,AL
+            CALL DATA_SETUP         ;输出汉字编码高字节
+            CALL DELAY              ;延迟
+            POP AX
+            MOV DX,PORTA
+            OUT DX, AL
+            CALL DATA_SETUP         ;输出汉字编码低字节
+            CALL DELAY
+            INC BX
+            INC BX                  ;修改显示内码缓冲区指针
+            INC BYTE PTR HZ_REC_ADR     ;修改LCD显示端口地址
+            POP CX
+            DEC CL
+            JNZ  CONTINUE_RECOVER
+            RET
+LCD_RECOVER_DISP   ENDP
+
+;8254控制灯泡闪烁，蜂鸣器高频声音
+SOUND_LIGHT proc near
+    push dx
+    push ax
+    ;蜂鸣器和小灯泡闪烁频率相同，使用方式3(方波发生器)和方式2(分频器)，0.5s
+    ;out1连接小灯泡和蜂鸣器
+    mov dx,283h
+    mov al,00110100b
+    out dx,al 
+    mov dx,280h
+    mov ax,1000
+    out dx,al
+    mov al,ah
+    out dx,al
+
+    mov dx,283h
+    mov al,01110110b
+    out dx,al
+    mov ax,500
+    mov dx,281h
+    out dx,al
+    mov al,ah
+    out dx,al
+    pop ax
+    pop dx
+    ret
+SOUND_LIGHT endp
+
+
+;停止灯泡闪烁以及高频声音
+STOP_SOUND_LIGHT proc near
+    push dx
+    push ax
+    mov dx,283h
+    mov al,00010100b
+    out dx,al
+    mov dx,280h
+    mov ax,1
+    out dx,al
+
+    mov dx,283h
+    mov al,01010110b
+    out dx,al
+    mov ax,1
+    mov dx,281h
+    out dx,al
+    pop ax
+    pop dx
+    ret
+STOP_SOUND_LIGHT endp
+
+
+;中断处理部分
+INT1 proc near
+push ax
+push ds
+push dx
+push bx
+push cx
+mov cx,1
+    
+mov dx,28bh    ;初始化8255
+mov al,10000000b
+out dx,al
+
+mov ax,350bh    ;获取原中断并保存
+int 21h
+mov int_off,bx
+mov bx,es
+mov int_seg,bx
+
+cli    ;置新中断
+ 
+mov dx,seg REPLENISH
+mov ds,dx
+mov dx,offset REPLENISH
+mov ax,250bh
+int 21h
+ 
+    
+in al,21h        ;打开屏蔽字
+and al,11110111b
+out 21h,al
+
+sti
+tttt:
+mov dx,28bh    ;PC6输出低电平
+mov al,00001010b
+out dx,al
+nop
+nop
+mov al,00001011b    ;PC6输出高电平
+out dx,al
+nop
+nop
+ 
+cmp cx,0
+;jne tttt
+
+cli
+mov dx,word ptr int_off    ;重置原中断
+mov ds,word ptr int_seg
+mov ax,250bh
+int 21h
+
+in al,21h        ;关闭屏蔽字
+or al,00001000b
+out 21h,al
+
+call STOP_LOW_ALARM;货物补充完毕停止低频报警
+pop cx
+pop bx
+pop dx
+pop ds
+pop ax
+ret
+INT1 endp
+
+
+;补货中断程序
+REPLENISH proc far     
+sti
+push dx
+push ax
+    
+dec cx   
+wait2:
+mov ah,0bh
+int 21h
+cmp al,0h
+je wait2;   无键按下，继续等待
+
+
+;mov al,5
+;mov goods_num1,al;
+;mov goods_num2,al;
+;mov goods_num3,al;
+;mov goods_num4,al;
+
+cli
+mov ax,data
+mov ds,ax
+mov al,20h    ;关中断
+out 20h,al
+pop ax
+pop dx
+iret 
+REPLENISH endp
+
+
+;蜂鸣器低频报警
+LOW_ALARM proc near
+    push dx
+    push ax
+    ; 使用方式3(方波发生器)和方式2(分频器)，2s
+    ;out1连接蜂鸣器
+    mov dx,283h
+    mov al,00110100b
+    out dx,al
+    mov dx,280h
+    mov ax,10000
+    out dx,al
+    mov al,ah
+    out dx,al
+
+    mov dx,283h
+    mov al,01110110b
+    out dx,al
+    mov ax,200
+    mov dx,281h
+    out dx,al
+    mov al,ah
+    out dx,al
+    pop ax
+    pop dx
+    ret
+LOW_ALARM endp
+
+STOP_LOW_ALARM proc near
+    push dx
+    push ax
+    mov dx,283h
+    mov al,00010100b
+    out dx,al
+    mov dx,280h
+    mov ax,1
+    out dx,al
+
+    mov dx,283h
+    mov al,01010110b
+    out dx,al
+    mov ax,1
+    mov dx,281h
+    out dx,al
+    pop ax
+    pop dx
+    ret
+STOP_LOW_ALARM endp
+
+
+code ends
+end start
