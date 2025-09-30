@@ -38,7 +38,7 @@
 * **[数据系统原理 / Principles_of_Database_System](./数据系统原理:Principles_of_Database_System)**
 * **[数字系统基础 / Fundamental_of_Digital_System](./数字系统基础%3AFundamental_of_Digital_System%20)**
 * **[思维交流与写作 / Creative_Thinking_and_Academic_Writing](./思维交流与写作:Creative_Thinking_and_Academic_Writing)**
-* **[微积分 I / Calculus_I](./微积分%20I:Calculus_I)**
+* **[微积分/ Calculus](./微积分Ⅰ%3ACalculus_Ⅰ%20)**
 * **[物理实验 II / Physics_Experiments_II](./物理实验%20II:Physics_Experiments_II)**
 * **[选课 / Elective Courses](./选课)**
 * **[C语言程序设计 / C_Language_Programming](./C语言程序设计:C_Language_Programming)**
